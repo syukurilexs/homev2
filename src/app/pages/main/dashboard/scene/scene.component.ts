@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { SceneService } from '../../../../services/scene.service';
+import { Observable } from 'rxjs';
+import { Scene } from '../../../../types/scene.type';
 
 @Component({
   selector: 'app-scene',
@@ -8,5 +11,7 @@ import { Component } from '@angular/core';
   styleUrl: './scene.component.scss'
 })
 export class SceneComponent {
-  constructor() {}
+  scene$!: Observable<Scene>;
+
+  constructor(private sceneService: SceneService) {}
 }
