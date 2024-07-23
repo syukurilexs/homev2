@@ -1,1 +1,14 @@
-<p>scene works!</p>
+<div class="container">
+  <h5>Scenes</h5>
+  <section class="content" [ngClass]="{ mobile: isHandset$ | async }">
+    @if (scenes$ | async; as scenes) {
+      @for (scene of scenes; track $index) {
+        <mat-card (click)="onClicked(scene)" matRipple>
+          <mat-card-content>
+            {{ scene.name | titlecase }}
+          </mat-card-content>
+        </mat-card>
+      }
+    }
+  </section>
+</div>
