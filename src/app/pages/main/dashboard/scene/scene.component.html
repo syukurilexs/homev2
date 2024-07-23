@@ -1,14 +1,17 @@
 <div class="container">
   <h5>Scenes</h5>
-  <section class="content" [ngClass]="{ mobile: isHandset$ | async }">
+  <section>
     @if (scenes$ | async; as scenes) {
-      @for (scene of scenes; track $index) {
-        <mat-card (click)="onClicked(scene)" matRipple>
-          <mat-card-content>
-            {{ scene.name | titlecase }}
-          </mat-card-content>
-        </mat-card>
-      }
+      <mat-card class="content" [ngClass]="{ mobile: isHandset$ | async }">
+        @for (scene of scenes; track $index) {
+          <button mat-fab extended style="justify-content: flex-start">
+            <div class="row ai-center gap1">
+              <span class="material-symbols-outlined"> favorite </span>
+              {{ scene.name | titlecase }}
+            </div>
+          </button>
+        }
+      </mat-card>
     }
   </section>
 </div>

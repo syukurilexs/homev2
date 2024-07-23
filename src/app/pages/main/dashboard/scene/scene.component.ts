@@ -6,6 +6,8 @@ import { AsyncPipe, NgClass, TitleCasePipe } from '@angular/common';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatRipple } from '@angular/material/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { MatFabButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-scene',
@@ -14,6 +16,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
     MatCard,
     MatCardContent,
     MatRipple,
+    MatFabButton,
+    MatIcon,
     AsyncPipe,
     TitleCasePipe,
     NgClass,

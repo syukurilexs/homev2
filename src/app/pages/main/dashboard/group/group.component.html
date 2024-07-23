@@ -1,1 +1,32 @@
-<p>group works!</p>
+<header>
+  <h5>Group</h5>
+</header>
+<section class="content" [ngClass]="{ mobile: isHandset$ | async }">
+  @if (groups$ | async; as groups) {
+    @for (item of groups; track $index) {
+      <mat-card>
+        <mat-card-title>{{ item.name }}</mat-card-title>
+        <mat-card-content>
+          <div class="row gap1">
+            @if (item.devices) {
+              @for (device of item.devices; track $index) {
+                <div class="column gap1 ai-center">
+                  <button
+                    mat-fab
+                    (click)="onClicked(device)"
+                    [class.on]="isStateOn(device.state)"
+                  >
+                    <mat-icon
+                      [svgIcon]="convertIconString(device.type)"
+                    ></mat-icon>
+                  </button>
+                  <span>{{ statusLabel(device.state) }}</span>
+                </div>
+              }
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  }
+</section>
