@@ -1,9 +1,18 @@
+@use "@angular/material" as mat;
+$theme: mat.define-theme();
+
 .sidenav-container {
   height: 100%;
 }
 
 .sidenav {
+  box-sizing: border-box;
   width: 200px;
+  margin-right: 8px;
+  &:hover {
+    background-color: var(--sys-surface-container);
+    @include mat.elevation(4);
+  }
 }
 
 .sidenav .mat-toolbar {
@@ -23,6 +32,8 @@ ul {
 
 .container {
   min-height: 100%;
-  background-color: #afa3a3;
+  background-color: var(--sys-surface-container);
+  border-radius: var(--mdc-elevated-card-container-shape);
   padding: 16px;
+  margin-left: 16px;
 }

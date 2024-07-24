@@ -13,8 +13,7 @@ $homev2-theme: mat.define-theme(
   (
     color: (
       theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
+      use-system-variables: true,
     ),
     density: (
       scale: 0,
@@ -27,6 +26,7 @@ $homev2-theme: mat.define-theme(
 // that you are using.
 :root {
   @include mat.all-component-themes($homev2-theme);
+  @include mat.system-level-colors($homev2-theme);
 }
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.
