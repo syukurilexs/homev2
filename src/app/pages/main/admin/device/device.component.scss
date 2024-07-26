@@ -1,0 +1,12 @@
+.device {
+  span {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding-top: 8px;
+  }
+  .active {
+    background-color: var(--sys-primary);
+    color: var(--sys-on-primary);
+  }
+}

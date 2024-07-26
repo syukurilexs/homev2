@@ -1,1 +1,26 @@
-<p>device works!</p>
+<div class="container">
+  <div class="column gap2">
+    <section>
+      <h5>Devices</h5>
+      <div class="row flex-wrap gap2">
+        @for (device of devices; track $index) {
+          <div class="column device">
+            <button
+              mat-fab
+              extend
+              [class.active]="active === device.icon"
+              (click)="onClick(device.icon)"
+            >
+              <mat-icon [svgIcon]="device.icon"></mat-icon>
+            </button>
+            <span>{{ device.name }}</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section>
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+</div>
