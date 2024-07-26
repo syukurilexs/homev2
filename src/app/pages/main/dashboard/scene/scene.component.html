@@ -4,7 +4,12 @@
     @if (scenes$ | async; as scenes) {
       <mat-card class="content" [ngClass]="{ mobile: isHandset$ | async }">
         @for (scene of scenes; track $index) {
-          <button mat-fab extended style="justify-content: flex-start">
+          <button
+            mat-fab
+            extended
+            style="justify-content: flex-start"
+            (click)="onClicked(scene)"
+          >
             <div class="row ai-center gap1">
               <span class="material-symbols-outlined"> favorite </span>
               {{ scene.name | titlecase }}

@@ -1,6 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { GroupService } from '../../../../services/group.service';
-import { map, Observable, shareReplay, Subject, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  debounceTime,
+  first,
+  map,
+  Observable,
+  shareReplay,
+  startWith,
+  Subject,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 import { Group } from '../../../../types/group.type';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
@@ -12,7 +23,8 @@ import { DeviceService } from '../../../../services/device.service';
 import { MatIcon, MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { registerIcon } from '../../../../functions/register-icon.func';
-import { MatFabAnchor, MatFabButton } from '@angular/material/button';
+import { MatFabButton } from '@angular/material/button';
+import { SocketService } from '../../../../services/socket.service';
 
 @Component({
   selector: 'app-group',
@@ -29,10 +41,11 @@ import { MatFabAnchor, MatFabButton } from '@angular/material/button';
   templateUrl: './group.component.html',
   styleUrl: './group.component.scss',
 })
-export class GroupComponent {
+export class GroupComponent implements OnDestroy {
   isHandset$!: Observable<boolean>;
   groups$!: Observable<Group[]>;
   destroyed = new Subject<void>();
+  refreshGroup$ = new Subject<void>();
 
   constructor(
     private groupService: GroupService,
@@ -40,15 +53,35 @@ export class GroupComponent {
     private deviceService: DeviceService,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
+    private socketService: SocketService,
   ) {
     this.initObservable();
+    this.listenToDeviceChange();
 
     // register svg icon
     registerIcon(['fan', 'light'], sanitizer, iconRegistry);
   }
 
+  ngOnDestroy(): void {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
+
+  listenToDeviceChange() {
+    this.socketService
+      .fromDeviceEvent()
+      .pipe(debounceTime(300), takeUntil(this.destroyed))
+      .subscribe((x) => {
+        this.refreshGroup$.next();
+      });
+  }
+
   initObservable() {
-    this.groups$ = this.groupService.getAll();
+    this.groups$ = this.refreshGroup$.pipe(
+      startWith(true),
+      switchMap((x) => this.groupService.getAll()),
+      takeUntil(this.destroyed),
+    );
 
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
       map((result) => result.matches),
@@ -66,14 +99,11 @@ export class GroupComponent {
   }
 
   onClicked(device: DeviceOld) {
-    // const state = device.state === StateE.Off ? StateE.On : StateE.Off;
-    // this.deviceService.updateState(device.id, state).subscribe((data) => {});
-    // this.group.devices.map((x) => {
-    //   if (x.id === device.id) {
-    //     x.state = state;
-    //   }
-    //   return x;
-    // });
+    const state = device.state === StateE.Off ? StateE.On : StateE.Off;
+    this.deviceService
+      .updateState(device.id, state)
+      .pipe(first())
+      .subscribe((data) => {});
   }
 
   isStateOn(state: StateE) {
