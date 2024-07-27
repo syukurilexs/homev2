@@ -4,7 +4,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { DeviceOld } from '../types/device-old.type';
 import { DeviceE } from '../enums/device-type.enum';
 import { Suis } from '../types/suis.type';
-import { environment } from "../../environments/environment";
+import { environment } from '../../environments/environment';
 import { StateE } from '../enums/state.enum';
 
 @Injectable({
@@ -34,12 +34,11 @@ export class DeviceService {
 
   getAllByType<T>(type: DeviceE) {
     return this.http
-      .get<T>(this.url + '/device?type=' + DeviceE[type])
+      .get<T>(this.url + '/device?type=' + type)
       .pipe(catchError(this.handleError));
   }
 
   getAllAction<T>() {
-    console.log('panggil action');
     return this.http
       .get<T>(this.url + '/device/action')
       .pipe(catchError(this.handleError));
@@ -69,7 +68,7 @@ export class DeviceService {
       .pipe(catchError(this.handleError));
   }
 
-  getById<T>(id: DeviceE) {
+  getById<T>(id: number) {
     return this.http
       .get<T>(this.url + '/device/' + id)
       .pipe(catchError(this.handleError));

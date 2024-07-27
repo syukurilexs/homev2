@@ -1,0 +1,9 @@
+@use "../../../styles/constants" as *;
+
+:host {
+  --mat-divider-color: var(--sys-surface-container);
+}
+
+mat-card {
+  max-width: $box-size;
+}

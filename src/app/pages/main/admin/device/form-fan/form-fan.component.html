@@ -1,0 +1,92 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        {{ title }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="fg" (submit)="onSubmit()">
+        <div class="column">
+          <!-- Name -->
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" formControlName="name" />
+          </mat-form-field>
+
+          <!-- Mqtt -->
+          <mat-form-field appearance="outline">
+            <mat-label>Mqtt Topic</mat-label>
+            <input matInput type="text" formControlName="mqttTopic" />
+          </mat-form-field>
+
+          <!-- Remark -->
+          <mat-form-field appearance="outline">
+            <mat-label>Remark</mat-label>
+            <input type="text" matInput formControlName="remark" />
+          </mat-form-field>
+          <div class="row gap2">
+            <!-- Suis -->
+            <mat-form-field appearance="outline">
+              <mat-label>Suis</mat-label>
+              <mat-select formControlName="suis">
+                @for (suis of suis$ | async; track $index) {
+                  <mat-option [value]="suis">{{ suis.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Action-->
+            <mat-form-field appearance="outline">
+              <mat-label>Action</mat-label>
+              <mat-select formControlName="action">
+                @for (action of actions; track $index) {
+                  <mat-option [value]="action">{{
+                    action.key + " - " + action.value
+                  }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button mat-mini-fab type="button" (click)="onAddSuisAction()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          <div>
+            @if (selectedActions.length > 0) {
+              <mat-card class="box1">
+                <mat-card-content>
+                  <div class="column gap1">
+                    @for (selectedAction of selectedActions; track $index) {
+                      <div class="row ai-center">
+                        <span class="filler">
+                          {{ selectedAction.name }} + {{ selectedAction.key }} +
+                          {{ selectedAction.value }}
+                        </span>
+                        <button
+                          mat-mini-fab
+                          type="button"
+                          (click)="onRemoveAction(selectedAction)"
+                        >
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                      @if (!$last) {
+                        <mat-divider></mat-divider>
+                      }
+                    }
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            }
+          </div>
+          <div class="row gap1 jc-end">
+            <button mat-stroked-button type="button" (click)="back()">
+              Cancel
+            </button>
+            <button mat-flat-button [disabled]="fg.invalid">Submit</button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

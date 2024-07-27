@@ -1,6 +1,6 @@
-import { Action } from "./action.type";
-import { CommonDevice } from "./common-device.type";
+import { Action } from './action.type';
+import { DeviceCommon } from './device-common.type';
 
-export type Light = CommonDevice & {
-    selectedAction: Action[];
-}
+export type Light = DeviceCommon & {
+  selectedAction: Action[];
+};

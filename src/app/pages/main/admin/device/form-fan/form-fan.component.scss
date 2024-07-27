@@ -1,0 +1,21 @@
+@use "../../../../../../styles/constants" as *;
+
+:root {
+  --mat-divider-color: var(--sys-on-surface-variant);
+}
+
+.container {
+  max-width: $box-size;
+
+  .box1 {
+    margin-bottom: 16px;
+    background-color: var(--sys-surface-variant);
+    color: var(--sys-on-surface-variant);
+  }
+}
+
+.float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+}

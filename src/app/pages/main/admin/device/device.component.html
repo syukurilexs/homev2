@@ -8,7 +8,7 @@
             <button
               mat-fab
               extend
-              [class.active]="active === device.icon"
+              [class.active]="currentDevice === device.icon"
               (click)="onClick(device.icon)"
             >
               <mat-icon [svgIcon]="device.icon"></mat-icon>
@@ -20,7 +20,46 @@
     </section>
 
     <section>
-      <router-outlet></router-outlet>
+      <app-edit-list
+        [curDevice]="currentDevice"
+        (info)="onInfo($event)"
+        (edit)="onEdit($event)"
+        (remove)="onRemove($event)"
+      ></app-edit-list>
+    </section>
+    <section>
+      @if (deviceInfo) {
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title> Info </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="grid">
+              <div><b>Name</b></div>
+              <div>:</div>
+              <div>{{ deviceInfo.name }}</div>
+              <div><b>Topic</b></div>
+              <div>:</div>
+              <div>{{ deviceInfo.topic }}</div>
+              <div><b>Remark</b></div>
+              <div>:</div>
+              <div>{{ deviceInfo.remark }}</div>
+            </div>
+            <div>
+              <div class="header">Attached Switch</div>
+              @if (currentDevice === DeviceEnum.Fan) {
+                @for (item of deviceInfo.selectedAction; track $index) {
+                  item
+                }
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
     </section>
   </div>
 </div>
+
+<button class="float" mat-mini-fab (click)="onAdd()">
+  <mat-icon>add</mat-icon>
+</button>

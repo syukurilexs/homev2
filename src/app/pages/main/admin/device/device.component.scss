@@ -10,3 +10,21 @@
     color: var(--sys-on-primary);
   }
 }
+
+.float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: fit-content(200px) fit-content(2px) 1fr;
+  column-gap: 16px;
+}
+
+.header {
+  margin-top: 16px;
+  text-decoration: underline;
+  font-weight: 600;
+}

@@ -1,0 +1,23 @@
+<mat-card>
+  <div class="column padding2 gap1">
+    @for (device of model$ | async; track $index) {
+      <div class="row gap1 ai-center">
+        <div class="filler">
+          {{ device.name }}
+        </div>
+        <button mat-mini-fab (click)="onInfo(device)">
+          <mat-icon>info</mat-icon>
+        </button>
+        <button mat-mini-fab (click)="onEdit(device)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab (click)="onDelete(device)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      @if (!$last) {
+        <mat-divider></mat-divider>
+      }
+    }
+  </div>
+</mat-card>

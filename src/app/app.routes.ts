@@ -20,7 +20,7 @@ export const routes: Routes = [
         path: 'admin',
         loadComponent: () =>
           import('../app/pages/main/admin/admin.component').then(
-            (x) => x.AdminComponent
+            (x) => x.AdminComponent,
           ),
 
         children: [
@@ -28,35 +28,49 @@ export const routes: Routes = [
             path: 'device',
             loadComponent: () =>
               import('../app/pages/main/admin/device/device.component').then(
-                (x) => x.DeviceComponent
+                (x) => x.DeviceComponent,
               ),
+          },
+          {
+            path: 'device/fan',
+            loadComponent: () =>
+              import(
+                '../app/pages/main/admin/device/form-fan/form-fan.component'
+              ).then((x) => x.FormFanComponent),
+          },
+          {
+            path: 'device/fan/:id',
+            loadComponent: () =>
+              import(
+                '../app/pages/main/admin/device/form-fan/form-fan.component'
+              ).then((x) => x.FormFanComponent),
           },
           {
             path: 'group',
             loadComponent: () =>
               import('../app/pages/main/admin/group/group.component').then(
-                (x) => x.GroupComponent
+                (x) => x.GroupComponent,
               ),
           },
           {
             path: 'scene',
             loadComponent: () =>
               import('../app/pages/main/admin/scene/scene.component').then(
-                (x) => x.SceneComponent
+                (x) => x.SceneComponent,
               ),
           },
           {
             path: 'timer',
             loadComponent: () =>
               import('../app/pages/main/admin/timer/timer.component').then(
-                (x) => x.TimerComponent
+                (x) => x.TimerComponent,
               ),
           },
           {
             path: 'monitor',
             loadComponent: () =>
               import('../app/pages/main/admin/monitor/monitor.component').then(
-                (x) => x.MonitorComponent
+                (x) => x.MonitorComponent,
               ),
           },
         ],

@@ -63,6 +63,10 @@ body {
   justify-content: space-between;
 }
 
+.jc-end {
+  justify-content: flex-end;
+}
+
 .ai-center {
   align-items: center;
 }
@@ -81,4 +85,24 @@ body {
 
 .gap4 {
   gap: 32px;
+}
+
+.filler {
+  flex: 1;
+}
+
+.padding1 {
+  padding: 8px;
+}
+
+.padding2 {
+  padding: 16px;
+}
+
+.padding3 {
+  padding: 24px;
+}
+
+.padding4 {
+  padding: 32px;
 }
