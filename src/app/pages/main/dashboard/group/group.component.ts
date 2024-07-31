@@ -17,7 +17,6 @@ import { AsyncPipe, NgClass } from '@angular/common';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { DeviceE } from '../../../../enums/device-type.enum';
-import { DeviceOld } from '../../../../types/device-old.type';
 import { StateE } from '../../../../enums/state.enum';
 import { DeviceService } from '../../../../services/device.service';
 import { MatIcon, MatIconRegistry } from '@angular/material/icon';
@@ -25,6 +24,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { registerIcon } from '../../../../functions/register-icon.func';
 import { MatFabButton } from '@angular/material/button';
 import { SocketService } from '../../../../services/socket.service';
+import { Device } from '../../../../types/device.type';
+import { Light } from '../../../../types/light.type';
 
 @Component({
   selector: 'app-group',
@@ -98,19 +99,20 @@ export class GroupComponent implements OnDestroy {
     }
   }
 
-  onClicked(device: DeviceOld) {
-    const state = device.state === StateE.Off ? StateE.On : StateE.Off;
+  onClicked(device: Device) {
+    const state =
+      (device as Light).state === StateE.Off ? StateE.On : StateE.Off;
     this.deviceService
       .updateState(device.id, state)
       .pipe(first())
       .subscribe((data) => {});
   }
 
-  isStateOn(state: StateE) {
-    return state === StateE.On;
+  isStateOn(device: Device) {
+    return (device as Light).state === StateE.On;
   }
 
-  statusLabel(state: StateE) {
-    return state === StateE.Off ? 'Off' : 'On';
+  statusLabel(device: Device) {
+    return (device as Light).state === StateE.Off ? 'Off' : 'On';
   }
 }

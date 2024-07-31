@@ -14,13 +14,13 @@
                   <button
                     mat-fab
                     (click)="onClicked(device)"
-                    [class.on]="isStateOn(device.state)"
+                    [class.on]="isStateOn(device)"
                   >
                     <mat-icon
                       [svgIcon]="convertIconString(device.type)"
                     ></mat-icon>
                   </button>
-                  <span>{{ statusLabel(device.state) }}</span>
+                  <span>{{ statusLabel(device) }}</span>
                 </div>
               }
             }

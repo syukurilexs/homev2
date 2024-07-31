@@ -1,7 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, PLATFORM_ID } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
-import { DeviceOld } from '../types/device-old.type';
+import { Injectable } from '@angular/core';
+import { catchError, throwError } from 'rxjs';
 import { DeviceE } from '../enums/device-type.enum';
 import { Suis } from '../types/suis.type';
 import { environment } from '../../environments/environment';
@@ -13,18 +12,8 @@ import { StateE } from '../enums/state.enum';
 export class DeviceService {
   url = environment.apiUrl;
   isBrowser: boolean | undefined;
-  //socket;
 
-  constructor(
-    private http: HttpClient,
-    //private socket: Socket
-    //@Inject(PLATFORM_ID) platformId: Object,
-  ) {
-    //this.isBrowser = isPlatformBrowser(platformId);
-    //if (this.isBrowser) {
-    //  this.socket = new Socket(socketConfig);
-    //}
-  }
+  constructor(private http: HttpClient) {}
 
   getAll<T>() {
     return this.http
@@ -97,10 +86,6 @@ export class DeviceService {
       .patch(this.url + '/device/' + id + '/state', { state })
       .pipe(catchError(this.handleError));
   }
-
-  // fromDeviceEvent(): Observable<DeviceOld> | undefined {
-  //   return this.socket?.fromEvent('state.change');
-  // }
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {

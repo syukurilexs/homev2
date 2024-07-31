@@ -4,10 +4,10 @@ import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { DeviceService } from '../../services/device.service';
 import { DeviceE } from '../../enums/device-type.enum';
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { DeviceOld } from '../../types/device-old.type';
 import { MatMiniFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
+import { Device } from '../../types/device.type';
 
 @Component({
   selector: 'app-edit-list',
@@ -25,11 +25,11 @@ import { MatDivider } from '@angular/material/divider';
 })
 export class EditListComponent {
   curDevice = input<DeviceE>(DeviceE.Fan);
-  info = output<DeviceOld>();
-  edit = output<DeviceOld>();
-  remove = output<DeviceOld>();
+  info = output<Device>();
+  edit = output<Device>();
+  remove = output<Device>();
 
-  model$!: Observable<DeviceOld[]>;
+  model$!: Observable<Device[]>;
   refreshModel$ = new BehaviorSubject(DeviceE.Fan);
 
   constructor(private deviceService: DeviceService) {
@@ -44,19 +44,19 @@ export class EditListComponent {
 
   initObservable() {
     this.model$ = this.refreshModel$.pipe(
-      switchMap((x) => this.deviceService.getAllByType<DeviceOld[]>(x)),
+      switchMap((x) => this.deviceService.getAllByType<Device[]>(x)),
     );
   }
 
-  onDelete(data: DeviceOld) {
+  onDelete(data: Device) {
     this.remove.emit(data);
   }
 
-  onEdit(data: DeviceOld) {
+  onEdit(data: Device) {
     this.edit.emit(data);
   }
 
-  onInfo(data: DeviceOld) {
+  onInfo(data: Device) {
     this.info.emit(data);
   }
 

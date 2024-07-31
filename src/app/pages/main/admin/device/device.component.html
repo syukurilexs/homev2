@@ -46,10 +46,13 @@
               <div>{{ deviceInfo.remark }}</div>
             </div>
             <div>
-              <div class="header">Attached Switch</div>
               @if (currentDevice === DeviceEnum.Fan) {
-                @for (item of deviceInfo.selectedAction; track $index) {
-                  item
+                <div class="header">Attached Switch</div>
+                @for (
+                  item of getAsFan(deviceInfo).selectedAction;
+                  track $index
+                ) {
+                  <div>{{item.name + '-' + item.key + '-' + item.value}}</div>
                 }
               }
             </div>

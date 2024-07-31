@@ -13,11 +13,13 @@ import {
 import { registerIcon } from '../../../../functions/register-icon.func';
 import { EditListComponent } from '../../../../components/edit-list/edit-list.component';
 import { DeviceE } from '../../../../enums/device-type.enum';
-import { DeviceOld } from '../../../../types/device-old.type';
 import { lastValueFrom } from 'rxjs';
 import { DeviceService } from '../../../../services/device.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormFanComponent } from './form-fan/form-fan.component';
+import { Device } from '../../../../types/device.type';
+import { Fan } from '../../../../types/fan.type';
+import { getAsFan } from '../../../../functions/type.func'
 
 @Component({
   selector: 'app-device',
@@ -37,9 +39,11 @@ import { FormFanComponent } from './form-fan/form-fan.component';
   styleUrl: './device.component.scss',
 })
 export class DeviceComponent {
+  getAsFan = getAsFan;
+
   currentDevice = DeviceE.Fan;
   @ViewChild(EditListComponent) editListComponent!: EditListComponent;
-  deviceInfo!: DeviceOld | undefined;
+  deviceInfo!: Device | undefined;
   DeviceEnum = DeviceE;
 
   devices = [
@@ -77,7 +81,7 @@ export class DeviceComponent {
     this.currentDevice = icon;
   }
 
-  async onRemove(data: DeviceOld) {
+  async onRemove(data: Device) {
     try {
       await lastValueFrom(this.deviceService.deleteById(data.id));
       this.editListComponent.refresh(this.currentDevice);
@@ -91,15 +95,16 @@ export class DeviceComponent {
     }
   }
 
-  onEdit(data: DeviceOld) {
+  onEdit(data: Device) {
     this.router.navigate(['fan', data.id], { relativeTo: this.route });
   }
 
-  async onInfo(data: DeviceOld) {
+  async onInfo(data: Device) {
     this.deviceInfo = data;
   }
 
   onAdd() {
     this.router.navigate(['fan'], { relativeTo: this.route });
   }
+
 }

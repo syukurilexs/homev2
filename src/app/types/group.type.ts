@@ -1,9 +1,9 @@
-import { DeviceOld } from './device-old.type';
+import { Device } from './device.type';
 
 export type Group = {
   name: string;
   createdAt: Date;
   updatedAt: Date;
   id: number;
-  devices: DeviceOld[];
+  devices: Device[];
 };
