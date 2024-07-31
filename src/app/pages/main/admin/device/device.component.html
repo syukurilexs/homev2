@@ -46,13 +46,16 @@
               <div>{{ deviceInfo.remark }}</div>
             </div>
             <div>
-              @if (currentDevice === DeviceEnum.Fan) {
+              @if (
+                currentDevice === DeviceEnum.Fan ||
+                currentDevice === DeviceEnum.Light
+              ) {
                 <div class="header">Attached Switch</div>
                 @for (
                   item of getAsFan(deviceInfo).selectedAction;
                   track $index
                 ) {
-                  <div>{{item.name + '-' + item.key + '-' + item.value}}</div>
+                  <div>{{ item.name + "-" + item.key + "-" + item.value }}</div>
                 }
               }
             </div>
@@ -63,6 +66,7 @@
   </div>
 </div>
 
+<!-- Button to add new device -->
 <button class="float" mat-mini-fab (click)="onAdd()">
   <mat-icon>add</mat-icon>
 </button>

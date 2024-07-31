@@ -96,7 +96,7 @@ export class DeviceComponent {
   }
 
   onEdit(data: Device) {
-    this.router.navigate(['fan', data.id], { relativeTo: this.route });
+    this.router.navigate([this.currentDevice, data.id], { relativeTo: this.route });
   }
 
   async onInfo(data: Device) {
@@ -104,7 +104,6 @@ export class DeviceComponent {
   }
 
   onAdd() {
-    this.router.navigate(['fan'], { relativeTo: this.route });
+    this.router.navigate([this.currentDevice], { relativeTo: this.route });
   }
-
 }

@@ -1,3 +1,5 @@
+@use '../../../../../styles/common' as cons;
+
 .device {
   span {
     display: block;
@@ -27,4 +29,8 @@
   margin-top: 16px;
   text-decoration: underline;
   font-weight: 600;
+}
+
+mat-card {
+  max-width: cons.$box-size;
 }

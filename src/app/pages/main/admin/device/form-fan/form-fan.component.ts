@@ -46,6 +46,7 @@ export class FormFanComponent implements OnInit {
   actions: Action[] = [];
   selectedActions: Action[] = [];
   id = -1;
+  currentType: DeviceE = DeviceE.Fan;
 
   constructor(
     private fb: FormBuilder,
@@ -111,12 +112,32 @@ export class FormFanComponent implements OnInit {
         this.title = 'Update Fan';
       }
     });
+
+    // Get url path
+    const urls = this.route.snapshot.url;
+    if (urls.length === 2) {
+      if (urls[1].path === DeviceE.Fan) {
+        this.currentType = DeviceE.Fan;
+        this.title = 'Add fan';
+      } else if (urls[1].path === DeviceE.Light) {
+        this.title = 'Add light';
+        this.currentType = DeviceE.Light;
+      }
+    } else if (urls.length === 3) {
+      if (urls[1].path === DeviceE.Fan) {
+        this.currentType = DeviceE.Fan;
+        this.title = 'Update fan';
+      } else if (urls[1].path === DeviceE.Light) {
+        this.title = 'Update light';
+        this.currentType = DeviceE.Light;
+      }
+    }
   }
 
   async onSubmit() {
-    if (this.id > 0) {
+    if (this.id > -1) {
       const input = {
-        type: DeviceE.Fan,
+        type: this.currentType,
         actions: this.selectedActions.map((x) => x.id),
         name: this.fg.get('name')?.value,
         topic: this.fg.get('mqttTopic')?.value,
@@ -136,7 +157,7 @@ export class FormFanComponent implements OnInit {
       }
     } else {
       const input = {
-        type: 1,
+        type: this.currentType,
         actions: this.selectedActions.map((x) => x.id),
         name: this.fg.get('name')?.value,
         topic: this.fg.get('mqttTopic')?.value,

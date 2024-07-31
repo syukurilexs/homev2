@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { MainComponent } from './pages/main/main.component';
 import { DashboardComponent } from './pages/main/dashboard/dashboard.component';
+import { DeviceE } from './enums/device-type.enum';
 
 export const routes: Routes = [
   {
@@ -32,14 +33,28 @@ export const routes: Routes = [
               ),
           },
           {
-            path: 'device/fan',
+            path: 'device/' + DeviceE.Fan,
             loadComponent: () =>
               import(
                 '../app/pages/main/admin/device/form-fan/form-fan.component'
               ).then((x) => x.FormFanComponent),
           },
           {
-            path: 'device/fan/:id',
+            path: 'device/' + DeviceE.Fan + '/:id',
+            loadComponent: () =>
+              import(
+                '../app/pages/main/admin/device/form-fan/form-fan.component'
+              ).then((x) => x.FormFanComponent),
+          },
+          {
+            path: 'device/' + DeviceE.Light,
+            loadComponent: () =>
+              import(
+                '../app/pages/main/admin/device/form-fan/form-fan.component'
+              ).then((x) => x.FormFanComponent),
+          },
+          {
+            path: 'device/' + DeviceE.Light+ '/:id',
             loadComponent: () =>
               import(
                 '../app/pages/main/admin/device/form-fan/form-fan.component'
