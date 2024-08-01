@@ -57,6 +57,11 @@
                 ) {
                   <div>{{ item.name + "-" + item.key + "-" + item.value }}</div>
                 }
+              } @else if (currentDevice === DeviceEnum.Switch) {
+                <div class="header">Action</div>
+                @for (item of getAsSuis(deviceInfo).action; track $index) {
+                  <div>{{ item.key + " : " + item.value }}</div>
+                }
               }
             </div>
           </mat-card-content>

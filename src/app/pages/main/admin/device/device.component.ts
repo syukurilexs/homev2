@@ -19,7 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormFanComponent } from './form-fan/form-fan.component';
 import { Device } from '../../../../types/device.type';
 import { Fan } from '../../../../types/fan.type';
-import { getAsFan } from '../../../../functions/type.func'
+import { getAsFan, getAsSuis } from '../../../../functions/type.func'
 
 @Component({
   selector: 'app-device',
@@ -40,6 +40,7 @@ import { getAsFan } from '../../../../functions/type.func'
 })
 export class DeviceComponent {
   getAsFan = getAsFan;
+  getAsSuis = getAsSuis;
 
   currentDevice = DeviceE.Fan;
   @ViewChild(EditListComponent) editListComponent!: EditListComponent;
