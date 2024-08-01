@@ -3,7 +3,7 @@
     <section>
       <h5>Devices</h5>
       <div class="row flex-wrap gap2">
-        @for (device of devices; track $index) {
+        @for (device of icons; track $index) {
           <div class="column device">
             <button
               mat-fab
@@ -21,7 +21,7 @@
 
     <section>
       <app-edit-list
-        [curDevice]="currentDevice"
+      [input]="devices"
         (info)="onInfo($event)"
         (edit)="onEdit($event)"
         (remove)="onRemove($event)"

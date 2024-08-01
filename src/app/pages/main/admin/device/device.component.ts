@@ -13,13 +13,13 @@ import {
 import { registerIcon } from '../../../../functions/register-icon.func';
 import { EditListComponent } from '../../../../components/edit-list/edit-list.component';
 import { DeviceE } from '../../../../enums/device-type.enum';
-import { lastValueFrom } from 'rxjs';
+import { first, lastValueFrom, Observable } from 'rxjs';
 import { DeviceService } from '../../../../services/device.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormFanComponent } from './form-fan/form-fan.component';
 import { Device } from '../../../../types/device.type';
 import { Fan } from '../../../../types/fan.type';
-import { getAsFan, getAsSuis } from '../../../../functions/type.func'
+import { getAsFan, getAsSuis } from '../../../../functions/type.func';
 
 @Component({
   selector: 'app-device',
@@ -43,11 +43,11 @@ export class DeviceComponent {
   getAsSuis = getAsSuis;
 
   currentDevice = DeviceE.Fan;
-  @ViewChild(EditListComponent) editListComponent!: EditListComponent;
   deviceInfo!: Device | undefined;
   DeviceEnum = DeviceE;
+  devices: Device[] = [];
 
-  devices = [
+  icons = [
     {
       name: 'Fans',
       icon: DeviceE.Fan,
@@ -71,21 +71,33 @@ export class DeviceComponent {
     private route: ActivatedRoute,
   ) {
     registerIcon(
-      this.devices.map((x) => x.icon as string),
+      this.icons.map((x) => x.icon as string),
       sanitizer,
       iconRegistery,
     );
+
+    // Reload the list of device base on default type (fan)
+    this.reload();
   }
 
-  onClick(icon: DeviceE) {
+  onClick(device: DeviceE) {
     this.deviceInfo = undefined;
-    this.currentDevice = icon;
+    this.currentDevice = device;
+
+    this.reload();
   }
 
-  async onRemove(data: Device) {
+  reload() {
+    this.deviceService
+      .getAllByType<Device[]>(this.currentDevice)
+      .pipe(first())
+      .subscribe((x) => (this.devices = x));
+  }
+
+  async onRemove(id: number) {
     try {
-      await lastValueFrom(this.deviceService.deleteById(data.id));
-      this.editListComponent.refresh(this.currentDevice);
+      await lastValueFrom(this.deviceService.deleteById(id));
+      this.reload();
       this._snackBar.open('Device deleted', 'Close', {
         duration: 3000,
       });
@@ -96,12 +108,18 @@ export class DeviceComponent {
     }
   }
 
-  onEdit(data: Device) {
-    this.router.navigate([this.currentDevice, data.id], { relativeTo: this.route });
+  onEdit(id: number) {
+    this.router.navigate([this.currentDevice, id], {
+      relativeTo: this.route,
+    });
   }
 
-  async onInfo(data: Device) {
-    this.deviceInfo = data;
+  async onInfo(id: number) {
+    //this.deviceInfo = data;
+    const index = this.devices.findIndex(x => x.id === id);
+    if (index > -1) {
+      this.deviceInfo = this.devices.at(index);
+    }
   }
 
   onAdd() {

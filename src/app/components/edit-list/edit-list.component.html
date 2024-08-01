@@ -1,6 +1,6 @@
 <mat-card>
   <div class="column padding2 gap1">
-    @for (device of model$ | async; track $index) {
+    @for (device of input(); track $index) {
       <div class="row gap1 ai-center">
         <div class="filler">
           {{ device.name }}
