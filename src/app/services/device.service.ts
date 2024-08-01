@@ -2,9 +2,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { DeviceE } from '../enums/device-type.enum';
-import { Suis } from '../types/suis.type';
 import { environment } from '../../environments/environment';
 import { StateE } from '../enums/state.enum';
+import { CreateSuis } from '../types/create.suis.type';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +39,7 @@ export class DeviceService {
       .pipe(catchError(this.handleError));
   }
 
-  createSwitch(value: Suis) {
+  createSwitch(value: CreateSuis) {
     return this.http
       .post(this.url + '/device/switch', value)
       .pipe(catchError(this.handleError));
@@ -69,7 +69,7 @@ export class DeviceService {
       .pipe(catchError(this.handleError));
   }
 
-  updateSwitchById(id: number, value: Suis) {
+  updateSwitchById(id: number, value: CreateSuis) {
     return this.http
       .patch(this.url + '/device/switch/' + id, value)
       .pipe(catchError(this.handleError));

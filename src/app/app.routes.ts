@@ -61,6 +61,20 @@ export const routes: Routes = [
               ).then((x) => x.FormFanComponent),
           },
           {
+            path: 'device/' + DeviceE.Switch,
+            loadComponent: () =>
+              import(
+                '../app/pages/main/admin/device/form-suis/form-suis.component'
+              ).then((x) => x.FormSuisComponent),
+          },
+          {
+            path: 'device/' + DeviceE.Switch+ '/:id',
+            loadComponent: () =>
+              import(
+                '../app/pages/main/admin/device/form-suis/form-suis.component'
+              ).then((x) => x.FormSuisComponent),
+          },
+          {
             path: 'group',
             loadComponent: () =>
               import('../app/pages/main/admin/group/group.component').then(

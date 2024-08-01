@@ -1,0 +1,14 @@
+@use '../../../../../../styles/common' as *;
+
+mat-card {
+	max-width: $box-size;
+}
+
+mat-card-title {
+	margin-bottom: 16px;
+}
+
+.box {
+    background-color: var(--sys-surface-variant);
+    color: var(--sys-on-surface-variant);
+}
