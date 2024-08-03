@@ -1,0 +1,9 @@
+@use "../../../../../../styles/common.scss" as *;
+
+mat-card {
+  max-width: $box-size;
+}
+
+mat-card-title {
+	margin-bottom: 16px;
+}

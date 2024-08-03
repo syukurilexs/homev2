@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from "../../environments/environment";
 import { HttpClient } from '@angular/common/http';
 import { Group } from '../types/group.type';
+import { CreateGroup } from '../types/create-group.type';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class GroupService {
     return this.http.get<Group[]>(this.url + '/group');
   }
 
-  create(value: Partial<{ name: any; devices: any }>) {
+  create(value: CreateGroup) {
     return this.http.post(this.url + '/group', value);
   }
 
@@ -27,7 +28,7 @@ export class GroupService {
     return this.http.get<Group>(this.url + '/group/' + id);
   }
 
-  updateById(id: number, value: Partial<{name: any, devices: any}>) {
+  updateById(id: number, value: CreateGroup) {
     return this.http.patch(this.url + '/group/' + id, value);
   }
 }

@@ -1,1 +1,29 @@
-<p>group works!</p>
+<header>
+  <h5>Group</h5>
+</header>
+<div class="column gap2">
+  <section>
+    <app-edit-list
+      [input]="groups"
+      (edit)="onEdit($event)"
+      (info)="onInfo($event)"
+      (remove)="onRemove($event)"
+    ></app-edit-list>
+  </section>
+  <section>
+    @if (currentGroup) {
+      <mat-card>
+        <mat-card-content>
+          <div><b>Name:</b> {{ currentGroup.name }}</div>
+          @for (item of currentGroup.devices; track $index) {
+            <div>{{ item.name }}</div>
+          }
+        </mat-card-content>
+      </mat-card>
+    }
+  </section>
+</div>
+
+<button mat-mini-fab class="float" (click)="onCreate()">
+  <mat-icon>add</mat-icon>
+</button>

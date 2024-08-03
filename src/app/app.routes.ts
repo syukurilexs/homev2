@@ -54,7 +54,7 @@ export const routes: Routes = [
               ).then((x) => x.FormFanComponent),
           },
           {
-            path: 'device/' + DeviceE.Light+ '/:id',
+            path: 'device/' + DeviceE.Light + '/:id',
             loadComponent: () =>
               import(
                 '../app/pages/main/admin/device/form-fan/form-fan.component'
@@ -68,7 +68,7 @@ export const routes: Routes = [
               ).then((x) => x.FormSuisComponent),
           },
           {
-            path: 'device/' + DeviceE.Switch+ '/:id',
+            path: 'device/' + DeviceE.Switch + '/:id',
             loadComponent: () =>
               import(
                 '../app/pages/main/admin/device/form-suis/form-suis.component'
@@ -79,6 +79,20 @@ export const routes: Routes = [
             loadComponent: () =>
               import('../app/pages/main/admin/group/group.component').then(
                 (x) => x.GroupComponent,
+              ),
+          },
+          {
+            path: 'group/create',
+            loadComponent: () =>
+              import('../app/pages/main/admin/group/form/form.component').then(
+                (x) => x.FormComponent,
+              ),
+          },
+          {
+            path: 'group/edit/:id',
+            loadComponent: () =>
+              import('../app/pages/main/admin/group/form/form.component').then(
+                (x) => x.FormComponent,
               ),
           },
           {

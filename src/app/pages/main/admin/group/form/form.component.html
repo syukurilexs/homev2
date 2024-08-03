@@ -1,0 +1,58 @@
+<section>
+  <mat-card>
+    <form [formGroup]="fg" (submit)="onSubmit()">
+      <mat-card-header>
+        <mat-card-title>{{ title | titlecase }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="column">
+          <!-- Name -->
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" formControlName="name" />
+          </mat-form-field>
+
+          <!-- Devices -->
+          <mat-form-field appearance="outline">
+            <mat-label>Devices</mat-label>
+            <mat-chip-grid #chipGrid>
+              @for (item of selected(); track $index) {
+                <mat-chip-row (removed)="removeSelectedDevice(item)">
+                  {{ item.name }}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+              }
+            </mat-chip-grid>
+            <input
+              matInput
+              type="text"
+              [matChipInputFor]="chipGrid"
+              [matAutocomplete]="auto"
+              formControlName="device"
+            />
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              (optionSelected)="onSelected($event)"
+            >
+              @for (item of devices(); track $index) {
+                <mat-option [value]="item">
+                  {{ item.name }}
+                </mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="full-width row gap2 jc-end">
+          <button type="button" mat-stroked-button (click)="onCancel()">
+            Cancel
+          </button>
+          <button mat-flat-button [disabled]="fg.invalid">Submit</button>
+        </div>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</section>
