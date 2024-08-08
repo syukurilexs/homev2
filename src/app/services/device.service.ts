@@ -4,7 +4,7 @@ import { catchError, throwError } from 'rxjs';
 import { DeviceE } from '../enums/device-type.enum';
 import { environment } from '../../environments/environment';
 import { StateE } from '../enums/state.enum';
-import { CreateSuis } from '../types/create.suis.type';
+import { CreateSuis } from '../types/create-suis.type';
 
 @Injectable({
   providedIn: 'root',

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { SceneDto } from '../types/scene-dto.type';
 import { Scene } from '../types/scene.type';
+import { CreateScene } from '../types/create-scene.type';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,7 @@ export class SceneService {
 
   constructor(private http: HttpClient) {}
 
-  updateById(id: number, data: SceneDto) {
+  updateById(id: number, data: CreateScene) {
     return this.http.patch(this.url + '/scene/' + id, data);
   }
 
@@ -24,7 +24,7 @@ export class SceneService {
     return this.http.get<Scene[]>(this.url + '/scene');
   }
 
-  create(scene: SceneDto) {
+  create(scene: CreateScene) {
     return this.http.post(this.url + '/scene', scene);
   }
 

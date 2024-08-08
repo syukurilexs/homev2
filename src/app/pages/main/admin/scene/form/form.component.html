@@ -1,0 +1,121 @@
+<mat-card>
+  <form [formGroup]="fg" (submit)="onSubmit()">
+    <mat-card-header>
+      <mat-card-title>{{ title | titlecase }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="column">
+        <!-- Name -->
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" formControlName="name" />
+        </mat-form-field>
+
+        <!-- Devices -->
+        <div class="row gap2">
+          <mat-form-field appearance="outline" class="filler">
+            <mat-label>Devices</mat-label>
+            <mat-select formControlName="device">
+              @for (item of devices(); track $index) {
+                <mat-option [value]="item">{{ item.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <button type="button" mat-fab (click)="addDevice()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div>
+          <mat-card class="box1">
+            <mat-card-content>
+              <div class="column gap1">
+                @for (item of selectedDevice(); track $index; let i = $index) {
+                  <div class="row gap2 ai-center">
+                    <div class="filler">
+                      {{ item.device.name }}
+                    </div>
+                    <mat-slide-toggle
+                      [checked]="item.bState"
+                      (toggleChange)="onToggleChange(i)"
+                    ></mat-slide-toggle>
+                    <button
+                      mat-mini-fab
+                      type="button"
+                      (click)="onRemoveDevice(item)"
+                    >
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </div>
+                  @if (!$last) {
+                    <mat-divider></mat-divider>
+                  }
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- Action -->
+        <div class="row gap2">
+          <mat-form-field class="filler" appearance="outline">
+            <mat-label>Suis</mat-label>
+            <mat-select #selectedSuisRef formControlName="suis">
+              @for (item of switches(); track $index) {
+                <mat-option [value]="item">{{ item.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="filler" appearance="outline">
+            <mat-label>Action</mat-label>
+            <mat-select #selectedActionRef formControlName="action">
+              @for (item of getActions(selectedSuisRef.value); track $index) {
+                <mat-option [value]="item">{{
+                  item.key + " : " + item.value
+                }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <button type="button" mat-fab (click)="addSuis()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        <div>
+          <mat-card class="box1">
+            <mat-card-content>
+              <div class="column gap1">
+                @for (item of selectedAction; track $index) {
+                  <div class="row ai-center">
+                    <div class="filler">
+                      {{ item.name + " - " + item.key + ":" + item.value }}
+                    </div>
+                    <button
+                      mat-mini-fab
+                      (click)="onRemoveAction(item)"
+                      type="button"
+                    >
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </div>
+                  @if (!$last) {
+                    <mat-divider></mat-divider>
+                  }
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="full-width row gap2 jc-end">
+        <button type="button" mat-stroked-button (click)="onCancel()">
+          Cancel
+        </button>
+        <button mat-flat-button [disabled]="fg.invalid">Submit</button>
+      </div>
+    </mat-card-actions>
+  </form>
+</mat-card>

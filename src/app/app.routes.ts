@@ -103,6 +103,20 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'scene/add',
+            loadComponent: () =>
+              import('../app/pages/main/admin/scene/form/form.component').then(
+                (x) => x.FormComponent,
+              ),
+          },
+          {
+            path: 'scene/edit/:id',
+            loadComponent: () =>
+              import('../app/pages/main/admin/scene/form/form.component').then(
+                (x) => x.FormComponent,
+              ),
+          },
+          {
             path: 'timer',
             loadComponent: () =>
               import('../app/pages/main/admin/timer/timer.component').then(

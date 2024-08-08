@@ -1,0 +1,13 @@
+@use "../../../../../styles/common.scss" as *;
+
+.float {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+}
+
+.info {
+  mat-card {
+    max-width: $box-size;
+  }
+}

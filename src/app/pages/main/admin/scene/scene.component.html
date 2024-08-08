@@ -1,1 +1,53 @@
-<p>scene works!</p>
+<header>
+  <h5>Scene</h5>
+</header>
+<div class="container column gap2">
+  <section>
+    <app-edit-list
+      [input]="scenes"
+      (edit)="onEdit($event)"
+      (info)="onInfo($event)"
+      (remove)="onRemove($event)"
+    ></app-edit-list>
+  </section>
+  <section class="info">
+    <!-- Display devices -->
+    @if (scene) {
+      <mat-card>
+        <mat-card-content>
+          <div class="column gap1">
+            <div>
+              <b><u>List Of Device</u></b>
+              @for (item of scene.sceneDevice; track $index) {
+                <div>
+                  {{ item.device.name }}
+                  {{ item.state }}
+                </div>
+              }
+            </div>
+            <div>
+              <b><u>List Of Switches</u></b>
+              @for (item of scene.actions; track $index) {
+                <div>
+									<!-- This area need to improve because the data is not match with type -->
+                  {{
+                    $any(item).device.name +
+                      " - " +
+                      item.key +
+                      " : " +
+                      item.value
+                  }}
+                </div>
+              }
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+    <!-- Display switches -->
+  </section>
+</div>
+
+<button mat-mini-fab class="float" (click)="onAdd()">
+  <mat-icon>add</mat-icon>
+</button>

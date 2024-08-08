@@ -1,0 +1,16 @@
+@use "../../../../../../styles/common.scss" as *;
+
+mat-card {
+  max-width: $box-size;
+}
+
+mat-card-title {
+  margin-bottom: 16px;
+}
+
+.box1 {
+  width: 100%;
+  margin-bottom: 16px;
+  background-color: var(--sys-surface-variant);
+  color: var(--sys-on-surface-variant);
+}
