@@ -1,11 +1,9 @@
 import { OptionE } from '../enums/option.enum';
 import { StateE } from '../enums/state.enum';
 
-export type Timer = {
-  createdAt: string;
-  updatedAt: string;
-  id: number;
+export type CreateTimer = {
+  deviceId: number;
+  time: string;
   state: StateE;
   option: OptionE;
-  time: string;
 };

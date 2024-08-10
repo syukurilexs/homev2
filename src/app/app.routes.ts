@@ -124,6 +124,20 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'timer/add',
+            loadComponent: () =>
+              import('../app/pages/main/admin/timer/form/form.component').then(
+                (x) => x.FormComponent,
+              ),
+          },
+          {
+            path: 'timer/edit/:id',
+            loadComponent: () =>
+              import('../app/pages/main/admin/timer/form/form.component').then(
+                (x) => x.FormComponent,
+              ),
+          },
+          {
             path: 'monitor',
             loadComponent: () =>
               import('../app/pages/main/admin/monitor/monitor.component').then(

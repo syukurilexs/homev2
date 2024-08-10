@@ -1,0 +1,46 @@
+<header>
+  <h5>Timer</h5>
+</header>
+<section>
+  <mat-card>
+    <form [formGroup]="fg" (submit)="onSubmit()">
+      <mat-card-header>
+        <mat-card-title>{{ title }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="column gap2">
+          <!-- Device -->
+          <mat-form-field appearance="outline">
+            <mat-label>Device</mat-label>
+            <mat-select formControlName="device">
+              @for (item of devices$ | async; track $index) {
+                <mat-option [value]="item.id">{{ item.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Time -->
+          <mat-form-field appearance="outline">
+            <mat-label>Timer</mat-label>
+            <input type="time" matInput formControlName="time" required/>
+          </mat-form-field>
+
+          <div class="row gap1 ai-center">
+            <!-- State -->
+            <mat-slide-toggle formControlName="state"></mat-slide-toggle>
+            <!-- Status -->
+            <mat-checkbox formControlName="status">Status</mat-checkbox>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="full-width row jc-end gap1">
+          <button type="button" mat-stroked-button (click)="onCancel()">
+            Cancel
+          </button>
+          <button mat-flat-button [disabled]="fg.invalid">Submit</button>
+        </div>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</section>

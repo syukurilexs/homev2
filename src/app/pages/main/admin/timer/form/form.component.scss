@@ -1,0 +1,13 @@
+@use "../../../../../../styles/common.scss" as *;
+
+mat-card {
+  max-width: $box-size;
+}
+
+mat-card-title {
+  padding-bottom: 16px;
+}
+
+.mat-mdc-input-element::-webkit-calendar-picker-indicator {
+  display: block;
+}

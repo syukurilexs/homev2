@@ -1,1 +1,45 @@
-<p>timer works!</p>
+<header>
+  <h5>Timer</h5>
+</header>
+<section>
+  <div class="column gap2">
+    @for (item of deviceTimer$ | async; track $index) {
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ item.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="column gap1">
+            @for (timer of item.timers; track $index) {
+              <div class="row ai-center">
+                <mat-checkbox
+                  [checked]="timer.option === option.Enable"
+                  (change)="onOptionChange(timer)"
+                ></mat-checkbox>
+                {{ timer.time }}
+                <div class="filler"></div>
+                <div class="row gap1 ai-center">
+                  <mat-slide-toggle
+                    [checked]="timer.state === state.On"
+                    (toggleChange)="onStateChange(timer)"
+                  ></mat-slide-toggle>
+                  <button mat-mini-fab (click)="onEdit(timer.id)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-mini-fab (click)="onDelete(timer)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</section>
+<section>
+  <button mat-mini-fab class="float" (click)="onAdd()">
+    <mat-icon>add</mat-icon>
+  </button>
+</section>
