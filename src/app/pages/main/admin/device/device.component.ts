@@ -51,14 +51,22 @@ export class DeviceComponent {
     {
       name: 'Fans',
       icon: DeviceE.Fan,
+      type: DeviceE.Fan,
     },
     {
       name: 'Light',
       icon: DeviceE.Light,
+      type: DeviceE.Light,
     },
     {
       name: 'Switch',
       icon: DeviceE.Switch,
+      type: DeviceE.Switch,
+    },
+    {
+      name: 'Rpi',
+      icon: DeviceE.Switch,
+      type: DeviceE.Rpi,
     },
   ];
 
@@ -80,7 +88,7 @@ export class DeviceComponent {
     this.reload();
   }
 
-  onClick(device: DeviceE) {
+  onSetCurrentDevice(device: DeviceE) {
     this.deviceInfo = undefined;
     this.currentDevice = device;
 

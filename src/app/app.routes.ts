@@ -75,6 +75,20 @@ export const routes: Routes = [
               ).then((x) => x.FormSuisComponent),
           },
           {
+            path: 'device/' + DeviceE.Rpi,
+            loadComponent: () =>
+              import(
+                '../app/pages/main/admin/device/rpi/rpi.component'
+              ).then((x) => x.RpiComponent),
+          },
+          {
+            path: 'device/' + DeviceE.Rpi + '/:id',
+            loadComponent: () =>
+              import(
+                '../app/pages/main/admin/device/rpi/rpi.component'
+              ).then((x) => x.RpiComponent),
+          },
+          {
             path: 'group',
             loadComponent: () =>
               import('../app/pages/main/admin/group/group.component').then(

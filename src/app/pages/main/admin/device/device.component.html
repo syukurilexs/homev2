@@ -8,8 +8,8 @@
             <button
               mat-fab
               extend
-              [class.active]="currentDevice === device.icon"
-              (click)="onClick(device.icon)"
+              [class.active]="currentDevice === device.type"
+              (click)="onSetCurrentDevice(device.type)"
             >
               <mat-icon [svgIcon]="device.icon"></mat-icon>
             </button>
@@ -62,6 +62,9 @@
                 @for (item of getAsSuis(deviceInfo).action; track $index) {
                   <div>{{ item.key + " : " + item.value }}</div>
                 }
+              } @else if (currentDevice === DeviceEnum.Rpi) {
+                <div>on: {{$any(deviceInfo).on}}</div>
+                <div>off: {{$any(deviceInfo).off}}</div>
               }
             </div>
           </mat-card-content>
