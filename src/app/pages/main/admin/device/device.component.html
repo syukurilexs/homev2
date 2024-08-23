@@ -21,7 +21,7 @@
 
     <section>
       <app-edit-list
-      [input]="devices"
+        [input]="devices"
         (info)="onInfo($event)"
         (edit)="onEdit($event)"
         (remove)="onRemove($event)"
@@ -38,33 +38,61 @@
               <div><b>Name</b></div>
               <div>:</div>
               <div>{{ deviceInfo.name }}</div>
-              <div><b>Topic</b></div>
-              <div>:</div>
-              <div>{{ deviceInfo.topic }}</div>
               <div><b>Remark</b></div>
               <div>:</div>
               <div>{{ deviceInfo.remark }}</div>
             </div>
             <div>
-              @if (
-                currentDevice === DeviceEnum.Fan ||
-                currentDevice === DeviceEnum.Light
-              ) {
+              @if (fanInfo) {
+                <div class="grid">
+                  <div><b>Topic</b></div>
+                  <div>:</div>
+                  <div>{{ fanInfo.fan.topic }}</div>
+                </div>
                 <div class="header">Attached Switch</div>
-                @for (
-                  item of getAsFan(deviceInfo).selectedAction;
-                  track $index
-                ) {
-                  <div>{{ item.name + "-" + item.key + "-" + item.value }}</div>
+                @for (item of fanInfo.fan.actions; track $index) {
+                  <div>
+                    {{
+                      item.suis?.device?.name +
+                        " - " +
+                        item.key +
+                        " - " +
+                        item.value
+                    }}
+                  </div>
                 }
-              } @else if (currentDevice === DeviceEnum.Switch) {
+              } @else if (lightInfo) {
+                <div class="grid">
+                  <div><b>Topic</b></div>
+                  <div>:</div>
+                  <div>{{ lightInfo.light.topic }}</div>
+                </div>
+                <div class="header">Attached Switch</div>
+                @for (item of lightInfo.light.actions; track $index) {
+                  <div>
+                    {{
+                      item.suis?.device?.name +
+                        " - " +
+                        item.key +
+                        " - " +
+                        item.value
+                    }}
+                  </div>
+                }
+              } @else if (suisInfo) {
+                <div class="grid">
+                  <div><b>Topic</b></div>
+                  <div>:</div>
+                  <div>{{ suisInfo.suis.topic }}</div>
+                </div>
                 <div class="header">Action</div>
-                @for (item of getAsSuis(deviceInfo).action; track $index) {
+                <div><span>Topic: </span>{{ suisInfo.suis.topic }}</div>
+                @for (item of suisInfo.suis.actions; track $index) {
                   <div>{{ item.key + " : " + item.value }}</div>
                 }
               } @else if (currentDevice === DeviceEnum.Rpi) {
-                <div>on: {{$any(deviceInfo).on}}</div>
-                <div>off: {{$any(deviceInfo).off}}</div>
+                <div>on: {{ $any(deviceInfo).on }}</div>
+                <div>off: {{ $any(deviceInfo).off }}</div>
               }
             </div>
           </mat-card-content>

@@ -28,7 +28,19 @@ export class DeviceService {
 
   getAllAction<T>() {
     return this.http
-      .get<T>(this.url + '/action')
+      .get<T[]>(this.url + '/action')
+      .pipe(catchError(this.handleError));
+  }
+
+  createLight(value: Partial<{ name: any; type: any }>) {
+    return this.http
+      .post(this.url + '/light', value)
+      .pipe(catchError(this.handleError));
+  }
+
+  createFan(value: Partial<{ name: any; type: any }>) {
+    return this.http
+      .post(this.url + '/fan', value)
       .pipe(catchError(this.handleError));
   }
 
@@ -63,6 +75,18 @@ export class DeviceService {
   getById<T>(id: number) {
     return this.http
       .get<T>(this.url + '/' + id)
+      .pipe(catchError(this.handleError));
+  }
+
+  updateLightById(id: number, value: any) {
+    return this.http
+      .patch(this.url + '/light/' + id, value)
+      .pipe(catchError(this.handleError));
+  }
+
+  updateFanById(id: number, value: any) {
+    return this.http
+      .patch(this.url + '/fan/' + id, value)
       .pipe(catchError(this.handleError));
   }
 

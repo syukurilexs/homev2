@@ -24,7 +24,6 @@ import { Device } from '../../../../../types/device.type';
 import { DeviceService } from '../../../../../services/device.service';
 import { first, lastValueFrom, map } from 'rxjs';
 import { DeviceE } from '../../../../../enums/device-type.enum';
-import { Suis } from '../../../../../types/suis.type';
 import { MatDividerModule } from '@angular/material/divider';
 import { SceneDevice } from '../../../../../types/scene.type';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -32,9 +31,9 @@ import { StateE } from '../../../../../enums/state.enum';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { CreateScene } from '../../../../../types/create-scene.type';
 import { SceneService } from '../../../../../services/scene.service';
-import { producerNotifyConsumers } from '@angular/core/primitives/signals';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Action } from '../../../../../types/action.type';
+import { DeviceSuis } from '../../../../../types/device-suis.type';
+import { ActionSuis } from '../../../../../types/action-suis.type';
 
 // Create temporary scene device to make it easier to attached
 // the state to mat-slide-toggle (check property is using boolean)
@@ -68,9 +67,10 @@ export class FormComponent {
   selectedDevice: WritableSignal<TmpSceneDevice[]> = signal([]);
   devices!: Signal<Device[]>;
 
-  switchesSource: WritableSignal<Suis[]> = signal([]);
-  switches!: Signal<Suis[]>;
-  selectedAction: Action[] = [];
+  switchesSource: WritableSignal<DeviceSuis[]> = signal([]);
+  switches!: Signal<DeviceSuis[]>;
+  selectedAction: ActionSuis[] = [];
+  actionSuises: ActionSuis[] = [];
 
   constructor(
     private deviceService: DeviceService,
@@ -88,6 +88,15 @@ export class FormComponent {
     this.getRouteParam();
   }
 
+  loadActionSuises() {
+    this.deviceService
+      .getAllAction<ActionSuis>()
+      .pipe(first())
+      .subscribe((x) => {
+        this.actionSuises = x;
+      });
+  }
+
   getRouteParam() {
     this.route.paramMap.subscribe((params: ParamMap) => {
       if (params.get('id') !== null) {
@@ -98,38 +107,44 @@ export class FormComponent {
 
         // Change subtitle
         this.title = 'Update Scene';
+      } else {
+        this.loadActionSuises();
       }
     });
   }
 
-  updateForm() {
-    // Get scene base on id
-    this.sceneService
-      .getById(this.id)
-      .pipe(first())
-      .subscribe((x) => {
-        // Update form
-        this.fg.patchValue({
-          name: x.name,
-        });
+  async updateForm() {
+    try {
+      const scene = await lastValueFrom(this.sceneService.getById(this.id));
+      this.actionSuises = await lastValueFrom(
+        this.deviceService.getAllAction<ActionSuis>(),
+      );
 
-        // Set selected device
-        this.selectedDevice.set(
-          x.sceneDevice.map((y) => {
-            return {
-              state: y.state,
-              device: y.device,
-              bState: y.state === StateE.On,
-            };
-          }),
-        );
-
-        // Set selected action
-        this.selectedAction = x.actions.map((x: any) => {
-          x.name = x.device.name;
-          return x;
-        });
+      // Update form
+      this.fg.patchValue({
+        name: scene.name,
       });
+
+      // Set selected device
+      this.selectedDevice.set(
+        scene.sceneDevice.map((y) => {
+          return {
+            state: y.state,
+            device: y.device,
+            bState: y.state === StateE.On,
+          };
+        }),
+      );
+
+      // Set selected action
+      this.selectedAction = this.actionSuises.filter((y) => {
+        const index = scene.sceneAction.findIndex((z) => y.id === z.actionId);
+        return index !== -1;
+      });
+    } catch (error) {
+      this._notifyError('Failed to update form');
+      console.log(error);
+    }
   }
 
   computeSwitche() {
@@ -140,7 +155,7 @@ export class FormComponent {
 
   loadSwitches() {
     this.deviceService
-      .getAllByType<Suis[]>(DeviceE.Switch)
+      .getAllByType<DeviceSuis[]>(DeviceE.Switch)
       .pipe(first())
       .subscribe((x) => {
         this.switchesSource.set(x);
@@ -203,20 +218,21 @@ export class FormComponent {
     const suis = this.fg.get('suis')?.value || '';
     const action = this.fg.get('action')?.value || '';
 
-    this.selectedAction.push({
-      id: action.id,
-      key: action.key,
-      value: action.value,
-      name: suis.name,
-    });
+    // Get selected switch
+    const actionSuis = this.actionSuises.find((x) => x.id === action.id);
+
+    // Add to selected switches
+    if (actionSuis) {
+      this.selectedAction.push(actionSuis);
+    }
 
     // Reset after add
     this.fg.get('action')?.setValue('');
   }
 
-  getActions(suis: Suis) {
-    if (suis) {
-      return suis.action;
+  getActions(deviceSuis: DeviceSuis) {
+    if (deviceSuis) {
+      return deviceSuis.suis.actions;
     }
     return [];
   }
@@ -251,8 +267,6 @@ export class FormComponent {
         };
       }),
     };
-
-    console.log(newScene);
 
     if (this.id > -1) {
       // Update scene
@@ -295,7 +309,7 @@ export class FormComponent {
     }
   }
 
-  onRemoveAction(action: Action) {
+  onRemoveAction(action: ActionSuis) {
     // Remove action from the selected list
     const index = this.selectedAction.findIndex((x) => x.id === action.id);
     this.selectedAction.splice(index, 1);

@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Light } from '../../../../../types/light.type';
-import { Fan } from '../../../../../types/fan.type';
+import { FanOld } from '../../../../../types/fan.type';
 import { first, lastValueFrom, map, Observable } from 'rxjs';
 import { DeviceService } from '../../../../../services/device.service';
 import { DeviceE } from '../../../../../enums/device-type.enum';
@@ -45,7 +45,7 @@ import { TimerDevice } from '../../../../../types/timer-device.type';
 })
 export class FormComponent {
   title = 'Add timer';
-  devices$!: Observable<Light[] | Fan[]>;
+  devices$!: Observable<Light[] | FanOld[]>;
   fg!: FormGroup;
   id = -1;
 
@@ -86,7 +86,7 @@ export class FormComponent {
   }
 
   initObservable() {
-    this.devices$ = this.deviceService.getAll<Light[] | Fan[]>().pipe(
+    this.devices$ = this.deviceService.getAll<Light[] | FanOld[]>().pipe(
       map((x) => {
         return x.filter(
           (y) => y.type === DeviceE.Fan || y.type === DeviceE.Light,

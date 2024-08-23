@@ -6,10 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import {
   BehaviorSubject,
   first,
-  map,
   Observable,
   startWith,
-  Subject,
   switchMap,
 } from 'rxjs';
 import { TimerService } from '../../../../services/timer.service';

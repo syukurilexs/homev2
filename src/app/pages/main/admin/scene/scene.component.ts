@@ -40,7 +40,9 @@ export class SceneComponent {
     this.sceneService
       .getAll()
       .pipe(first())
-      .subscribe((x) => (this.scenes = x));
+      .subscribe((x) => {
+        this.scenes = x;
+      });
   }
 
   onEdit(id: number) {

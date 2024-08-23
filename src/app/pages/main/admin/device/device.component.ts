@@ -18,8 +18,10 @@ import { DeviceService } from '../../../../services/device.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormFanComponent } from './form-fan/form-fan.component';
 import { Device } from '../../../../types/device.type';
-import { Fan } from '../../../../types/fan.type';
 import { getAsFan, getAsSuis } from '../../../../functions/type.func';
+import { DeviceSuis } from '../../../../types/device-suis.type';
+import { DeviceLight } from '../../../../types/device-light.type';
+import { DeviceFan } from '../../../../types/device-fan.type';
 
 @Component({
   selector: 'app-device',
@@ -43,7 +45,7 @@ export class DeviceComponent {
   getAsSuis = getAsSuis;
 
   currentDevice = DeviceE.Fan;
-  deviceInfo!: Device | undefined;
+  deviceInfo!: DeviceSuis | DeviceLight | DeviceFan | undefined;
   DeviceEnum = DeviceE;
   devices: Device[] = [];
 
@@ -69,6 +71,10 @@ export class DeviceComponent {
       type: DeviceE.Rpi,
     },
   ];
+
+  suisInfo: DeviceSuis | undefined;
+  fanInfo: DeviceFan | undefined;
+  lightInfo: DeviceLight | undefined;
 
   constructor(
     sanitizer: DomSanitizer,
@@ -124,9 +130,23 @@ export class DeviceComponent {
 
   async onInfo(id: number) {
     //this.deviceInfo = data;
-    const index = this.devices.findIndex(x => x.id === id);
+    const index = this.devices.findIndex((x) => x.id === id);
     if (index > -1) {
       this.deviceInfo = this.devices.at(index);
+
+      // Default to undefined
+      this.suisInfo = undefined;
+      this.fanInfo = undefined;
+      this.lightInfo = undefined;
+
+      // Set current device
+      if (this.currentDevice === DeviceE.Switch) {
+        this.suisInfo = this.devices.at(index) as DeviceSuis;
+      } else if (this.currentDevice === DeviceE.Fan) {
+        this.fanInfo = this.devices.at(index) as DeviceFan;
+      } else if (this.currentDevice === DeviceE.Light) {
+        this.lightInfo = this.devices.at(index) as DeviceLight;
+      }
     }
   }
 

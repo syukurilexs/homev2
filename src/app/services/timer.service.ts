@@ -23,7 +23,6 @@ export class TimerService {
   }
 
   getAll<T>() {
-    console.log('panggil');
     return this.http.get<T[]>(this.url);
   }
 

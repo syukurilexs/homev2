@@ -47,25 +47,26 @@
                 }
               </mat-select>
             </mat-form-field>
-            <button mat-mini-fab type="button" (click)="onAddSuisAction()">
+            <button mat-fab type="button" (click)="onAddSuisAction()">
               <mat-icon>add</mat-icon>
             </button>
           </div>
           <div>
-            @if (selectedActions.length > 0) {
+            @if (selectedActionSuiss.length > 0) {
               <mat-card class="box1">
                 <mat-card-content>
                   <div class="column gap1">
-                    @for (selectedAction of selectedActions; track $index) {
+                    @for (selectedAction of selectedActionSuiss; track $index) {
                       <div class="row ai-center">
                         <span class="filler">
-                          {{ selectedAction.name }} + {{ selectedAction.key }} +
+                          {{ selectedAction.suis.device.name }} +
+                          {{ selectedAction.key }} +
                           {{ selectedAction.value }}
                         </span>
                         <button
                           mat-mini-fab
                           type="button"
-                          (click)="onRemoveAction(selectedAction)"
+                          (click)="onRemoveAction(selectedAction.id)"
                         >
                           <mat-icon>delete</mat-icon>
                         </button>

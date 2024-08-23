@@ -1,5 +1,7 @@
+import { Suis } from "./suis.type";
+
 export type Action = {
-    id?: number;
+    id: number;
     value: string;
     key: string;
 
@@ -11,4 +13,5 @@ export type Action = {
     // If it is part of switch it will not there because this action is
     // subset of switch 
     name?: string;
+    suis?: Suis;
 }

@@ -25,7 +25,8 @@ import { registerIcon } from '../../../../functions/register-icon.func';
 import { MatFabButton } from '@angular/material/button';
 import { SocketService } from '../../../../services/socket.service';
 import { Device } from '../../../../types/device.type';
-import { Light } from '../../../../types/light.type';
+import { DeviceLight } from '../../../../types/device-light.type';
+import { DeviceFan } from '../../../../types/device-fan.type';
 
 @Component({
   selector: 'app-group',
@@ -48,6 +49,8 @@ export class GroupComponent implements OnDestroy {
   destroyed = new Subject<void>();
   refreshGroup$ = new Subject<void>();
 
+  groups: Group[] = [];
+
   constructor(
     private groupService: GroupService,
     private breakpointObserver: BreakpointObserver,
@@ -58,9 +61,19 @@ export class GroupComponent implements OnDestroy {
   ) {
     this.initObservable();
     this.listenToDeviceChange();
+    this.loadGroups();
 
     // register svg icon
     registerIcon(['fan', 'light'], sanitizer, iconRegistry);
+  }
+
+  loadGroups() {
+    this.groupService
+      .getAll()
+      .pipe(first())
+      .subscribe((x) => {
+        this.groups = x;
+      });
   }
 
   ngOnDestroy(): void {
@@ -73,17 +86,11 @@ export class GroupComponent implements OnDestroy {
       .fromDeviceEvent()
       .pipe(debounceTime(300), takeUntil(this.destroyed))
       .subscribe((x) => {
-        this.refreshGroup$.next();
+        this.loadGroups();
       });
   }
 
   initObservable() {
-    this.groups$ = this.refreshGroup$.pipe(
-      startWith(true),
-      switchMap((x) => this.groupService.getAll()),
-      takeUntil(this.destroyed),
-    );
-
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
       map((result) => result.matches),
       shareReplay(),
@@ -91,28 +98,65 @@ export class GroupComponent implements OnDestroy {
     );
   }
 
-  convertIconString(type: DeviceE) {
-    if (type === DeviceE.Fan) {
-      return 'fan';
-    } else {
-      return 'light';
+  onClicked(group: Group, device: Device) {
+    if (device.type === DeviceE.Light) {
+      const light = device as DeviceLight;
+      const state = light.light.state === StateE.Off ? StateE.On : StateE.Off;
+
+      // Update state on client. This process to avoid delay view on client while
+      // waiting response from server
+      this.groups.map((x) => {
+        x.devices.map((y) => {
+          if (y.id === device.id) {
+            if (y.type === DeviceE.Light) {
+              (y as DeviceLight).light.state = state;
+            }
+          }
+          return y;
+        });
+        return x;
+      });
+
+      // Update state on server side
+      this.deviceService
+        .updateState(device.id, state)
+        .pipe(first())
+        .subscribe((data) => {
+          console.log(data);
+        });
+    } else if (device.type === DeviceE.Fan) {
+      const fan = device as DeviceFan;
+      const state = fan.fan.state === StateE.Off ? StateE.On : StateE.Off;
+
+      // Update state on client. This process to avoid delay view on client while
+      // waiting response from server
+      this.groups.map((x) => {
+        x.devices.map((y) => {
+          if (y.id === device.id) {
+            if (y.type === DeviceE.Fan) {
+              (y as DeviceFan).fan.state = state;
+            }
+          }
+          return y;
+        });
+        return x;
+      });
+
+      // Update state on server side
+      this.deviceService
+        .updateState(device.id, state)
+        .pipe(first())
+        .subscribe((data) => {});
     }
   }
 
-  onClicked(device: Device) {
-    const state =
-      (device as Light).state === StateE.Off ? StateE.On : StateE.Off;
-    this.deviceService
-      .updateState(device.id, state)
-      .pipe(first())
-      .subscribe((data) => {});
-  }
-
   isStateOn(device: Device) {
-    return (device as Light).state === StateE.On;
-  }
-
-  statusLabel(device: Device) {
-    return (device as Light).state === StateE.Off ? 'Off' : 'On';
+    if (device.type === DeviceE.Light) {
+      return (device as DeviceLight).light.state === StateE.On;
+    } else if (device.type === DeviceE.Fan) {
+      return (device as DeviceFan).fan.state === StateE.On;
+    } else {
+      return false;
+    }
   }
 }

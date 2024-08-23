@@ -1,10 +1,16 @@
 import { StateE } from '../enums/state.enum';
-import { Action } from './action.type';
+import { ActionSuis } from './action-suis.type';
 import { Device } from './device.type';
 
 export interface SceneDevice {
   state: StateE;
   device: Device;
+}
+
+export interface SceneAction {
+  sceneId: number;
+  actionId: number;
+  action: ActionSuis;
 }
 
 export interface Scene {
@@ -13,5 +19,5 @@ export interface Scene {
   id: number;
   name: string;
   sceneDevice: SceneDevice[];
-  actions: Action[];
+  sceneAction: SceneAction[];
 }

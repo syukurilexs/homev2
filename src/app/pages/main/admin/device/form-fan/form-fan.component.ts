@@ -8,9 +8,9 @@ import {
 import { MatButtonModule, MatMiniFabButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { last, lastValueFrom, Observable } from 'rxjs';
+import { first, lastValueFrom, Observable } from 'rxjs';
 import { DeviceService } from '../../../../../services/device.service';
 import { DeviceE } from '../../../../../enums/device-type.enum';
 import { AsyncPipe, Location } from '@angular/common';
@@ -19,7 +19,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Fan } from '../../../../../types/fan.type';
+import { DeviceFan } from '../../../../../types/device-fan.type';
+import { DeviceSuis } from '../../../../../types/device-suis.type';
+import { ActionSuis } from '../../../../../types/action-suis.type';
+import { DeviceLight } from '../../../../../types/device-light.type';
 
 @Component({
   selector: 'app-form-fan',
@@ -42,9 +45,10 @@ import { Fan } from '../../../../../types/fan.type';
 export class FormFanComponent implements OnInit {
   title = 'Add Fan';
   fg!: FormGroup;
-  suis$!: Observable<any[]>;
+  suis$!: Observable<DeviceSuis[]>;
   actions: Action[] = [];
-  selectedActions: Action[] = [];
+  selectedActionSuiss: ActionSuis[] = [];
+  actionSuiss: ActionSuis[] = [];
   id = -1;
   currentType: DeviceE = DeviceE.Fan;
 
@@ -62,8 +66,17 @@ export class FormFanComponent implements OnInit {
     this.getRouteParam();
   }
 
+  reloadActionSuis() {
+    this.deviceService
+      .getAllAction<ActionSuis>()
+      .pipe(first())
+      .subscribe((x) => {
+        this.actionSuiss = x;
+      });
+  }
+
   initObservable() {
-    this.suis$ = this.deviceService.getAllByType(DeviceE.Switch);
+    this.suis$ = this.deviceService.getAllByType<DeviceSuis[]>(DeviceE.Switch);
   }
 
   initFg() {
@@ -75,44 +88,83 @@ export class FormFanComponent implements OnInit {
       action: [''],
     });
 
-    this.fg.get('suis')?.valueChanges.subscribe((x) => {
-      this.actions = x.action;
+    this.fg.get('suis')?.valueChanges.subscribe((x: DeviceSuis) => {
+      this.actions = x.suis.actions;
     });
   }
 
   async updateForm() {
-    try {
-      const device = await lastValueFrom(
-        this.deviceService.getById<Fan>(this.id),
-      );
+    if (this.currentType === DeviceE.Fan) {
+      try {
+        // Get devices by id
+        const device = await lastValueFrom(
+          this.deviceService.getById<DeviceFan>(this.id),
+        );
 
-      // Update form
-      this.fg.patchValue({
-        name: device.name,
-        mqttTopic: device.topic,
-        remark: device.remark,
-      });
+        // Get actions
+        const actionSuiss = await lastValueFrom(
+          this.deviceService.getAllAction<ActionSuis>(),
+        );
 
-      // Update selected action
-      this.selectedActions = device.selectedAction;
-    } catch (error) {
-      this._snackBar.open('Failed to load fan', 'Close', { duration: 3000 });
+        this.actionSuiss = actionSuiss;
+
+        // Update form
+        this.fg.patchValue({
+          name: device.name,
+          mqttTopic: device.fan.topic,
+          remark: device.remark,
+        });
+
+        // Update selected action switches
+        this.selectedActionSuiss = this.actionSuiss.filter((x) => {
+          const index = device.fan.actions.findIndex((y) => y.id === x.id);
+
+          if (index === -1) return false;
+
+          return true;
+        });
+      } catch (error) {
+        this.notifyError('Failed to update form for fan');
+        console.error(error);
+      }
+    } else {
+      // Light
+      try {
+        // Get devices by id
+        const device = await lastValueFrom(
+          this.deviceService.getById<DeviceLight>(this.id),
+        );
+
+        // Get actions
+        const actionSuiss = await lastValueFrom(
+          this.deviceService.getAllAction<ActionSuis>(),
+        );
+
+        this.actionSuiss = actionSuiss;
+
+        // Update form
+        this.fg.patchValue({
+          name: device.name,
+          mqttTopic: device.light.topic,
+          remark: device.remark,
+        });
+
+        // Update selected action switches
+        this.selectedActionSuiss = this.actionSuiss.filter((x) => {
+          const index = device.light.actions.findIndex((y) => y.id === x.id);
+
+          if (index === -1) return false;
+
+          return true;
+        });
+      } catch (error) {
+        this.notifyError('Failed to update form for light');
+        console.error(error);
+      }
     }
   }
 
   getRouteParam() {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      if (params.get('id') !== null) {
-        this.id = (params.get('id') as any) || -1;
-
-        // Updating form with information from server
-        this.updateForm();
-
-        // Change subtitle
-        this.title = 'Update Fan';
-      }
-    });
-
     // Get url path
     const urls = this.route.snapshot.url;
     if (urls.length === 2) {
@@ -132,48 +184,80 @@ export class FormFanComponent implements OnInit {
         this.currentType = DeviceE.Light;
       }
     }
+
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      if (params.get('id') !== null) {
+        // Update
+        this.id = (params.get('id') as any) || -1;
+
+        // Updating form with information from server
+        this.updateForm();
+      } else {
+        // Create
+        this.reloadActionSuis();
+      }
+    });
   }
 
   async onSubmit() {
     if (this.id > -1) {
+      // Update
       const input = {
-        type: this.currentType,
-        actions: this.selectedActions.map((x) => x.id),
+        actions: this.selectedActionSuiss.map((x) => x.id),
         name: this.fg.get('name')?.value,
         topic: this.fg.get('mqttTopic')?.value,
         remark: this.fg.get('remark')?.value,
       };
 
-      try {
-        await lastValueFrom(this.deviceService.updateById(this.id, input));
-        this._snackBar.open('Successfully updating fan', 'close', {
-          duration: 3000,
-        });
-        this.location.back();
-      } catch (error) {
-        this._snackBar.open('Failed to update fan', 'close', {
-          duration: 3000,
-        });
+      if (this.currentType === DeviceE.Fan) {
+        // Fan
+        try {
+          await lastValueFrom(this.deviceService.updateFanById(this.id, input));
+          this.notify('Successfully updating fan');
+          this.location.back();
+        } catch (error) {
+          this.notifyError('Failed to update fan');
+        }
+      } else {
+        // Light
+        try {
+          await lastValueFrom(
+            this.deviceService.updateLightById(this.id, input),
+          );
+          this.notify('Successfully updating light');
+          this.location.back();
+        } catch (error) {
+          this.notifyError('Failed to update light');
+        }
       }
     } else {
+      // Create
       const input = {
         type: this.currentType,
-        actions: this.selectedActions.map((x) => x.id),
+        actions: this.selectedActionSuiss.map((x) => x.id),
         name: this.fg.get('name')?.value,
         topic: this.fg.get('mqttTopic')?.value,
         remark: this.fg.get('remark')?.value,
       };
 
-      try {
-        await lastValueFrom(this.deviceService.create(input));
-        this._snackBar.open('Successfully creating new fan', 'close', {
-          duration: 3000,
-        });
-        this.location.back();
-      } catch (error) {
-        this._snackBar.open('Failed to create new fan', 'close', {
-          duration: 3000,
-        });
+      if (this.currentType === DeviceE.Fan) {
+        // Fan
+        try {
+          await lastValueFrom(this.deviceService.createFan(input));
+          this.notify('Successfully creating new fan');
+          this.location.back();
+        } catch (error) {
+          this.notifyError('Failed to create new fan');
+        }
+      } else {
+        // Light
+        try {
+          await lastValueFrom(this.deviceService.createLight(input));
+          this.notify('Successfully creating new light');
+          this.location.back();
+        } catch (error) {
+          this.notifyError('Failed to create new light');
+        }
       }
     }
   }
@@ -182,23 +266,42 @@ export class FormFanComponent implements OnInit {
     const suis = this.fg.get('suis')?.value;
     const action = this.fg.get('action')?.value;
 
-    this.selectedActions.push({
-      id: action.id,
-      key: action.key,
-      value: action.value,
-      name: suis.name,
-    });
+    // Get action id
+    const actionSuis = this.actionSuiss.find((x) => x.id === action.id);
+
+    if (actionSuis) {
+      this.selectedActionSuiss.push(actionSuis);
+    }
   }
 
   back() {
     this.location.back();
   }
 
-  onRemoveAction(action: Action) {
-    const index = this.selectedActions.findIndex((x) => x.id === action.id);
+  onRemoveAction(id: number) {
+    const index = this.selectedActionSuiss.findIndex((x) => x.id === id);
 
     if (index > -1) {
-      this.selectedActions.splice(index, 1);
+      this.selectedActionSuiss.splice(index, 1);
     }
+  }
+
+  getSuisName(action: Action) {
+    const name = action.suis?.device?.name;
+
+    if (name) return name;
+
+    return '';
+  }
+
+  notify(msg: string) {
+    this._snackBar.open(msg, 'Close', { duration: 3000 });
+  }
+
+  notifyError(msg: string) {
+    this._snackBar.open(msg, 'Close', {
+      duration: 3000,
+      panelClass: 'snackbar-error',
+    });
   }
 }

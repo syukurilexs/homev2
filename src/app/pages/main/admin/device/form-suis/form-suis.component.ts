@@ -15,10 +15,9 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
 import { lastValueFrom } from 'rxjs';
 import { DeviceService } from '../../../../../services/device.service';
-import { DeviceE } from '../../../../../enums/device-type.enum';
 import { CreateAction } from '../../../../../types/create-action.type';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Suis } from '../../../../../types/suis.type';
+import { DeviceSuis } from '../../../../../types/device-suis.type';
 
 @Component({
   selector: 'app-form-suis',
@@ -67,17 +66,17 @@ export class FormSuisComponent {
 
   async updateForm() {
     try {
-      const suis = await lastValueFrom(
-        this.deviceService.getById<Suis>(this.id),
+      const deviceSuis = await lastValueFrom(
+        this.deviceService.getById<DeviceSuis>(this.id),
       );
 
       this.fg.patchValue({
-        name: suis.name,
-        topic: suis.topic,
-        remark: suis.remark,
+        name: deviceSuis.name,
+        topic: deviceSuis.suis.topic,
+        remark: deviceSuis.remark,
       });
 
-      this.createActions = suis.action;
+      this.createActions = deviceSuis.suis.actions;
     } catch (error) {
       this._snackBar.open('Cannot load switch data', 'Close', {
         duration: 300,
@@ -101,45 +100,45 @@ export class FormSuisComponent {
     const remark = this.fg.get('remark')?.value || '';
 
     if (this.createActions.length === 0) {
-      this._snackBar.open('Key value is empty', 'Close', {
-        duration: 3000,
-        panelClass: 'snackbar-error',
-      });
+      this._notifyError('key value is empty');
       return;
     }
 
     if (this.id > -1) {
-      // Update
       console.log('update');
-      await lastValueFrom(
-        this.deviceService.updateSwitchById(this.id, {
-          name,
-          topic,
-          remark,
-          type: DeviceE.Switch,
-          action: this.createActions,
-        }),
-      );
+      // Update
+      try {
+        await lastValueFrom(
+          this.deviceService.updateSwitchById(this.id, {
+            name,
+            topic,
+            remark,
+            action: this.createActions,
+          }),
+        );
 
-      this._snackBar.open('Switch updated successfully', 'Close', {
-        duration: 3000,
-      });
+        this._notify('Switch updated successfully');
+        this.location.back();
+      } catch (error) {
+        this._notifyError('Failed to update switch');
+      }
     } else {
       // Create new
+      try {
+        await lastValueFrom(
+          this.deviceService.createSwitch({
+            name,
+            topic,
+            remark,
+            action: this.createActions,
+          }),
+        );
 
-      await lastValueFrom(
-        this.deviceService.createSwitch({
-          name,
-          topic,
-          remark,
-          type: DeviceE.Switch,
-          action: this.createActions,
-        }),
-      );
-
-      this._snackBar.open('Switch created successfully', 'Close', {
-        duration: 3000,
-      });
+        this._notify('Switch created successfully');
+        this.location.back();
+      } catch (error) {
+        this._notifyError('Failed to create switch');
+      }
     }
   }
 
@@ -160,5 +159,18 @@ export class FormSuisComponent {
 
   onRemoveAction(index: number) {
     this.createActions.splice(index, 1);
+  }
+
+  private _notify(msg: string) {
+    this._snackBar.open(msg, 'Close', {
+      duration: 3000,
+    });
+  }
+
+  private _notifyError(msg: string) {
+    this._snackBar.open(msg, 'Close', {
+      duration: 3000,
+      panelClass: 'snackbar-error',
+    });
   }
 }

@@ -4,5 +4,5 @@ import { DeviceCommon } from './device-common.type';
 
 export type Light = DeviceCommon & {
   state: StateE;
-  selectedAction: Action[];
+  actions: Action[];
 };

@@ -89,7 +89,13 @@
                 @for (item of selectedAction; track $index) {
                   <div class="row ai-center">
                     <div class="filler">
-                      {{ item.name + " - " + item.key + ":" + item.value }}
+                      {{
+                        item.suis.device.name +
+                          " - " +
+                          item.key +
+                          ":" +
+                          item.value
+                      }}
                     </div>
                     <button
                       mat-mini-fab

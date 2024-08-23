@@ -20,22 +20,21 @@
               <b><u>List Of Device</u></b>
               @for (item of scene.sceneDevice; track $index) {
                 <div>
-                  {{ item.device.name }}
+                  {{ item.device.name }} :
                   {{ item.state }}
                 </div>
               }
             </div>
             <div>
               <b><u>List Of Switches</u></b>
-              @for (item of scene.actions; track $index) {
+              @for (item of scene.sceneAction; track $index) {
                 <div>
-									<!-- This area need to improve because the data is not match with type -->
                   {{
-                    $any(item).device.name +
+                    item.action.suis.device.name +
                       " - " +
-                      item.key +
+                      item.action.key +
                       " : " +
-                      item.value
+                      item.action.value
                   }}
                 </div>
               }
