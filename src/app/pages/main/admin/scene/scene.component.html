@@ -27,14 +27,14 @@
             </div>
             <div>
               <b><u>List Of Switches</u></b>
-              @for (item of scene.sceneAction; track $index) {
+              @for (item of scene.actions; track $index) {
                 <div>
                   {{
-                    item.action.suis.device.name +
+                    item.suis.device.name +
                       " - " +
-                      item.action.key +
+                      item.key +
                       " : " +
-                      item.action.value
+                      item.value
                   }}
                 </div>
               }

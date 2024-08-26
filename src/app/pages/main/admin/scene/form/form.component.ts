@@ -138,7 +138,7 @@ export class FormComponent {
 
       // Set selected action
       this.selectedAction = this.actionSuises.filter((y) => {
-        const index = scene.sceneAction.findIndex((z) => y.id === z.actionId);
+        const index = scene.actions.findIndex((z) => y.id === z.id);
         return index !== -1;
       });
     } catch (error) {

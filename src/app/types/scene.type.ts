@@ -7,17 +7,11 @@ export interface SceneDevice {
   device: Device;
 }
 
-export interface SceneAction {
-  sceneId: number;
-  actionId: number;
-  action: ActionSuis;
-}
-
 export interface Scene {
   createdAt: string;
   updatedAt: string;
   id: number;
   name: string;
   sceneDevice: SceneDevice[];
-  sceneAction: SceneAction[];
+  actions: ActionSuis[];
 }
