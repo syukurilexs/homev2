@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RpiComponent } from './rpi.component';
+import { RpiComponent } from './actuator.component';
 
 describe('RpiComponent', () => {
   let component: RpiComponent;

@@ -75,17 +75,17 @@ export const routes: Routes = [
               ).then((x) => x.FormSuisComponent),
           },
           {
-            path: 'device/' + DeviceE.Rpi,
+            path: 'device/' + DeviceE.Actuator,
             loadComponent: () =>
               import(
-                '../app/pages/main/admin/device/rpi/rpi.component'
+                './pages/main/admin/device/form-actuator/actuator.component'
               ).then((x) => x.RpiComponent),
           },
           {
-            path: 'device/' + DeviceE.Rpi + '/:id',
+            path: 'device/' + DeviceE.Actuator + '/:id',
             loadComponent: () =>
               import(
-                '../app/pages/main/admin/device/rpi/rpi.component'
+                './pages/main/admin/device/form-actuator/actuator.component'
               ).then((x) => x.RpiComponent),
           },
           {

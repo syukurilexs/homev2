@@ -22,6 +22,7 @@ import { getAsFan, getAsSuis } from '../../../../functions/type.func';
 import { DeviceSuis } from '../../../../types/device-suis.type';
 import { DeviceLight } from '../../../../types/device-light.type';
 import { DeviceFan } from '../../../../types/device-fan.type';
+import { DeviceActuator } from '../../../../types/device-actuator.type';
 
 @Component({
   selector: 'app-device',
@@ -45,7 +46,8 @@ export class DeviceComponent {
   getAsSuis = getAsSuis;
 
   currentDevice = DeviceE.Fan;
-  deviceInfo!: DeviceSuis | DeviceLight | DeviceFan | undefined;
+  //deviceInfo!: DeviceSuis | DeviceLight | DeviceFan | undefined;
+  deviceInfo!: Device | undefined;
   DeviceEnum = DeviceE;
   devices: Device[] = [];
 
@@ -66,15 +68,16 @@ export class DeviceComponent {
       type: DeviceE.Switch,
     },
     {
-      name: 'Rpi',
+      name: 'Actuator',
       icon: DeviceE.Switch,
-      type: DeviceE.Rpi,
+      type: DeviceE.Actuator,
     },
   ];
 
   suisInfo: DeviceSuis | undefined;
   fanInfo: DeviceFan | undefined;
   lightInfo: DeviceLight | undefined;
+  actuatorInfo: DeviceActuator | undefined;
 
   constructor(
     sanitizer: DomSanitizer,
@@ -146,6 +149,8 @@ export class DeviceComponent {
         this.fanInfo = this.devices.at(index) as DeviceFan;
       } else if (this.currentDevice === DeviceE.Light) {
         this.lightInfo = this.devices.at(index) as DeviceLight;
+      } else if (this.currentDevice === DeviceE.Actuator) {
+        this.actuatorInfo = this.devices.at(index) as DeviceActuator;
       }
     }
   }

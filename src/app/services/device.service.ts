@@ -5,7 +5,7 @@ import { DeviceE } from '../enums/device-type.enum';
 import { environment } from '../../environments/environment';
 import { StateE } from '../enums/state.enum';
 import { CreateSuis } from '../types/create-suis.type';
-import { CreateRpi } from '../types/create-rpi.type';
+import { CreateRpi as CreateActuator } from '../types/create-rpi.type';
 
 @Injectable({
   providedIn: 'root',
@@ -62,8 +62,8 @@ export class DeviceService {
       .pipe(catchError(this.handleError));
   }
 
-  createRpi(input: CreateRpi) {
-    return this.http.post(this.url + '/rpi', input);
+  createActuator(input: CreateActuator) {
+    return this.http.post(this.url + '/actuator', input);
   }
 
   deleteById(id: number) {
@@ -108,8 +108,8 @@ export class DeviceService {
       .pipe(catchError(this.handleError));
   }
 
-  updateRpiById(id: number, input: CreateRpi) {
-    return this.http.patch(this.url + '/rpi/' + id, input);
+  updateActuatorById(id: number, input: CreateActuator) {
+    return this.http.patch(this.url + '/actuator/' + id, input);
   }
 
   updateState(id: number, state: StateE) {

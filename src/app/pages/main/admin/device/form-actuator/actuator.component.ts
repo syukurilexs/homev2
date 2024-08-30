@@ -1,5 +1,5 @@
 import { Location, TitleCasePipe } from '@angular/common';
-import { Component, ɵɵgetInheritedFactory } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,8 +15,8 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { DeviceService } from '../../../../../services/device.service';
 import { first } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DeviceE } from '../../../../../enums/device-type.enum';
-import { Rpi } from '../../../../../types/rpi.type';
+import { Actuator } from '../../../../../types/actuator.type';
+import { DeviceActuator } from '../../../../../types/device-actuator.type';
 
 @Component({
   selector: 'app-rpi',
@@ -29,11 +29,11 @@ import { Rpi } from '../../../../../types/rpi.type';
     ReactiveFormsModule,
     TitleCasePipe,
   ],
-  templateUrl: './rpi.component.html',
-  styleUrl: './rpi.component.scss',
+  templateUrl: './actuator.component.html',
+  styleUrl: './actuator.component.scss',
 })
 export class RpiComponent {
-  title = 'Add rpi';
+  title = 'Add Actuator';
   fg!: FormGroup;
   id = -1;
 
@@ -57,22 +57,24 @@ export class RpiComponent {
         this.updateForm();
 
         // Change subtitle
-        this.title = 'Update Rpi';
+        this.title = 'Update Actuator';
+      } else {
+        this.title = 'Add Actuator';
       }
     });
   }
 
   updateForm() {
     this.deviceService
-      .getById<Rpi>(this.id)
+      .getById<DeviceActuator>(this.id)
       .pipe(first())
       .subscribe({
         next: (x) => {
           this.fg.patchValue({
             name: x.name,
-            topic: x.topic,
-            on: x.on,
-            off: x.off,
+            topic: x.actuator.topic,
+            on: x.actuator.on,
+            off: x.actuator.off,
           });
         },
         error: (err) => {
@@ -100,9 +102,9 @@ export class RpiComponent {
     };
 
     if (this.id === -1) {
-      // Create rpi
+      // Create actuator
       this.deviceService
-        .createRpi(input)
+        .createActuator(input)
         .pipe(first())
         .subscribe({
           next: () => {
@@ -115,9 +117,9 @@ export class RpiComponent {
           },
         });
     } else {
-      // Update rpi
+      // Update actuator
       this.deviceService
-        .updateRpiById(this.id, input)
+        .updateActuatorById(this.id, input)
         .pipe(first())
         .subscribe({
           next: () => {

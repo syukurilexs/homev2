@@ -90,9 +90,14 @@
                 @for (item of suisInfo.suis.actions; track $index) {
                   <div>{{ item.key + " : " + item.value }}</div>
                 }
-              } @else if (currentDevice === DeviceEnum.Rpi) {
-                <div>on: {{ $any(deviceInfo).on }}</div>
-                <div>off: {{ $any(deviceInfo).off }}</div>
+              } @else if (actuatorInfo) {
+                <div class="grid">
+                  <div><b>Topic</b></div>
+                  <div>:</div>
+                  <div>{{ actuatorInfo.actuator.topic }}</div>
+                </div>
+                <div>on: {{ actuatorInfo.actuator.on }}</div>
+                <div>off: {{ actuatorInfo.actuator.off }}</div>
               }
             </div>
           </mat-card-content>
