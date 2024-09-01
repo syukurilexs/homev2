@@ -1,7 +1,7 @@
-import { Location, NgClass } from '@angular/common';
-import { Component, Sanitizer, ViewChild } from '@angular/core';
+import { JsonPipe, NgClass } from '@angular/common';
+import { Component } from '@angular/core';
 import { MatFabButton, MatMiniFabButton } from '@angular/material/button';
-import { MatCard, MatCardModule } from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatIcon, MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import {
@@ -37,6 +37,7 @@ import { DeviceActuator } from '../../../../types/device-actuator.type';
     RouterLink,
     EditListComponent,
     FormFanComponent,
+    JsonPipe,
   ],
   templateUrl: './device.component.html',
   styleUrl: './device.component.scss',
@@ -141,6 +142,7 @@ export class DeviceComponent {
       this.suisInfo = undefined;
       this.fanInfo = undefined;
       this.lightInfo = undefined;
+      this.actuatorInfo = undefined;
 
       // Set current device
       if (this.currentDevice === DeviceE.Switch) {

@@ -15,7 +15,6 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { DeviceService } from '../../../../../services/device.service';
 import { first } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Actuator } from '../../../../../types/actuator.type';
 import { DeviceActuator } from '../../../../../types/device-actuator.type';
 
 @Component({
@@ -89,7 +88,7 @@ export class RpiComponent {
     this.fg = this.fb.group({
       name: ['', Validators.required],
       topic: ['', Validators.required],
-      key: ['', Validators.required],
+      key: [''],
       on: ['', Validators.required],
       off: ['', Validators.required],
     });
