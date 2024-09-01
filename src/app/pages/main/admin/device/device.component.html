@@ -61,6 +61,8 @@
                     }}
                   </div>
                 }
+                <div class="header">Actuator</div>
+                {{ fanInfo.fan.actuator.name }}
               } @else if (lightInfo) {
                 <div class="grid">
                   <div><b>Topic</b></div>
@@ -79,6 +81,8 @@
                     }}
                   </div>
                 }
+                <div class="header">Actuator</div>
+                {{ lightInfo.light.actuator.name }}
               } @else if (suisInfo) {
                 <div class="grid">
                   <div><b>Topic</b></div>
