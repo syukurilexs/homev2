@@ -47,16 +47,18 @@
             <div class="padding2 column gap1">
               @for (item of createActions; track $index) {
                 <div class="row jc-space-between">
-									<div>
-									{{ item.key }} : {{ item.value }}
-									</div>
-									<button type="button" mat-mini-fab (click)="onRemoveAction($index)">
-										<mat-icon>delete</mat-icon>
-									</button>
-								</div>
-								@if (!$last) {
-									<mat-divider></mat-divider>
-								}
+                  <div>{{ item.key }} : {{ item.value }}</div>
+                  <button
+                    type="button"
+                    mat-mini-fab
+                    (click)="onRemoveAction($index)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+                @if (!$last) {
+                  <mat-divider></mat-divider>
+                }
               }
             </div>
           </mat-card>

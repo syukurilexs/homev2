@@ -1,5 +1,5 @@
-import { Action } from "./action.type";
+import { Action } from './action.type';
 
-export type CreateAction = Omit<Action,'id'> & {
-	id?: number;
-}
+export type CreateAction = Omit<Action, 'id'> & {
+  id?: number;
+};

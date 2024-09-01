@@ -1,5 +1,5 @@
 .mat-mdc-paginator {
-	background-color: transparent;
+  background-color: transparent;
 }
 
 .box {
@@ -24,11 +24,11 @@
   display: grid;
   grid-template-columns: 150px 1fr;
   overflow-x: scroll;
-	position: relative;
+  position: relative;
 
-	.float {
-		position: absolute;
-		bottom: 32px;
-		right: 32px;
-	}
+  .float {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+  }
 }

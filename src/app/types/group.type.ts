@@ -1,9 +1,9 @@
 import { Device } from './device.type';
 
-export type Group = {
+export interface Group {
   name: string;
   createdAt: Date;
   updatedAt: Date;
   id: number;
   devices: Device[];
-};
+}

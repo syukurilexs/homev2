@@ -1,8 +1,8 @@
-export type Job = {
-    name: string;
-    nextrun: string;
-    lastrun: string;
-    device: string;
-    state: string;
-    status: string;
+export interface Job {
+  name: string;
+  nextrun: string;
+  lastrun: string;
+  device: string;
+  state: string;
+  status: string;
 }

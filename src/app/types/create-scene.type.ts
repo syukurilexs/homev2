@@ -1,12 +1,12 @@
-import { StateE } from "../enums/state.enum";
+import { StateE } from '../enums/state.enum';
 
-export type CreateScene = {
+export interface CreateScene {
   name: string;
   devices: CreateSceneDevices[];
   actions: number[];
-};
+}
 
-export type CreateSceneDevices = {
+export interface CreateSceneDevices {
   id: number;
   state: StateE;
-};
+}

@@ -1,6 +1,7 @@
-export type CreateRpi = {
-	name: string;
-	topic: string;
-	on: string;
-	off: string;
+export interface CreateRpi {
+  name: string;
+  topic: string;
+  key: string;
+  on: string;
+  off: string;
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { environment } from "../../environments/environment";
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Group } from '../types/group.type';
 import { CreateGroup } from '../types/create-group.type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GroupService {
   url = environment.apiUrl;

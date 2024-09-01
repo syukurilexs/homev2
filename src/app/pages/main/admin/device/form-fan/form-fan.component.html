@@ -20,6 +20,18 @@
             <input matInput type="text" formControlName="mqttTopic" />
           </mat-form-field>
 
+          <!-- Actuator -->
+          <mat-form-field appearance="outline">
+            <mat-label>Actuator</mat-label>
+            <mat-select formControlName="actuator">
+              @for (deviceActuator of deviceActuator$ | async; track $index) {
+                <mat-option [value]="deviceActuator.id">{{
+                  deviceActuator.name
+                }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
           <!-- Remark -->
           <mat-form-field appearance="outline">
             <mat-label>Remark</mat-label>

@@ -5,10 +5,8 @@ import { GroupComponent } from './group/group.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [SceneComponent,GroupComponent],
+  imports: [SceneComponent, GroupComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent {
-
-}
+export class DashboardComponent {}

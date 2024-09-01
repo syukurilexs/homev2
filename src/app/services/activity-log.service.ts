@@ -10,7 +10,7 @@ export class ActivityLogService {
 
   constructor(private http: HttpClient) {}
 
-  getActivityLog(page: number, take: number = 10) {
+  getActivityLog(page: number, take = 10) {
     return this.http.get(this.url + `?order=DESC&page=${page}&take=${take}`);
   }
 

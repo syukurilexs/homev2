@@ -3,13 +3,7 @@ import { DeviceTimer } from '../../../../types/device-timer.type';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  BehaviorSubject,
-  first,
-  Observable,
-  startWith,
-  switchMap,
-} from 'rxjs';
+import { BehaviorSubject, first, Observable, startWith, switchMap } from 'rxjs';
 import { TimerService } from '../../../../services/timer.service';
 import { AsyncPipe } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';

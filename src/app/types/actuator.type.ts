@@ -1,8 +1,9 @@
-export type Actuator = {
-	createdAt: string
-	updatedAt: string
-	id: number
-	on: string
-	off: string
-	topic: string
+export interface Actuator {
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+  on: string;
+  key: string;
+  off: string;
+  topic: string;
 }

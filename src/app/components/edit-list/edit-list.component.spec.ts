@@ -8,9 +8,8 @@ describe('EditlistComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditListComponent]
-    })
-    .compileComponents();
+      imports: [EditListComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EditListComponent);
     component = fixture.componentInstance;

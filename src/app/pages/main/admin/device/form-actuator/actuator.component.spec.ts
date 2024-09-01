@@ -8,9 +8,8 @@ describe('RpiComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RpiComponent]
-    })
-    .compileComponents();
+      imports: [RpiComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RpiComponent);
     component = fixture.componentInstance;

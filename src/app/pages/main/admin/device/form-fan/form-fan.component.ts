@@ -23,6 +23,8 @@ import { DeviceFan } from '../../../../../types/device-fan.type';
 import { DeviceSuis } from '../../../../../types/device-suis.type';
 import { ActionSuis } from '../../../../../types/action-suis.type';
 import { DeviceLight } from '../../../../../types/device-light.type';
+import { DeviceActuator } from '../../../../../types/device-actuator.type';
+import { Device } from '../../../../../types/device.type';
 
 @Component({
   selector: 'app-form-fan',
@@ -49,6 +51,7 @@ export class FormFanComponent implements OnInit {
   actions: Action[] = [];
   selectedActionSuiss: ActionSuis[] = [];
   actionSuiss: ActionSuis[] = [];
+  deviceActuator$!: Observable<DeviceActuator[]>;
   id = -1;
   currentType: DeviceE = DeviceE.Fan;
 
@@ -77,12 +80,16 @@ export class FormFanComponent implements OnInit {
 
   initObservable() {
     this.suis$ = this.deviceService.getAllByType<DeviceSuis[]>(DeviceE.Switch);
+    this.deviceActuator$ = this.deviceService.getAllByType<DeviceActuator[]>(
+      DeviceE.Actuator,
+    );
   }
 
   initFg() {
     this.fg = this.fb.group({
       name: ['', Validators.required],
       mqttTopic: ['', Validators.required],
+      actuator: [-1, Validators.required],
       remark: [''],
       suis: [''],
       action: [''],
@@ -113,6 +120,7 @@ export class FormFanComponent implements OnInit {
           name: device.name,
           mqttTopic: device.fan.topic,
           remark: device.remark,
+          actuator: device.fan.actuator.id,
         });
 
         // Update selected action switches
@@ -147,6 +155,7 @@ export class FormFanComponent implements OnInit {
           name: device.name,
           mqttTopic: device.light.topic,
           remark: device.remark,
+          actuator: device.light.actuator.id,
         });
 
         // Update selected action switches
@@ -200,14 +209,16 @@ export class FormFanComponent implements OnInit {
   }
 
   async onSubmit() {
+    const input = {
+      actions: this.selectedActionSuiss.map((x) => x.id),
+      name: this.fg.get('name')?.value,
+      topic: this.fg.get('mqttTopic')?.value,
+      remark: this.fg.get('remark')?.value,
+      actuator: this.fg.get('actuator')?.value || -1,
+    };
+
     if (this.id > -1) {
       // Update
-      const input = {
-        actions: this.selectedActionSuiss.map((x) => x.id),
-        name: this.fg.get('name')?.value,
-        topic: this.fg.get('mqttTopic')?.value,
-        remark: this.fg.get('remark')?.value,
-      };
 
       if (this.currentType === DeviceE.Fan) {
         // Fan
@@ -232,13 +243,6 @@ export class FormFanComponent implements OnInit {
       }
     } else {
       // Create
-      const input = {
-        type: this.currentType,
-        actions: this.selectedActionSuiss.map((x) => x.id),
-        name: this.fg.get('name')?.value,
-        topic: this.fg.get('mqttTopic')?.value,
-        remark: this.fg.get('remark')?.value,
-      };
 
       if (this.currentType === DeviceE.Fan) {
         // Fan

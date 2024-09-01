@@ -1,4 +1,4 @@
-export type ActionSuis = {
+export interface ActionSuis {
   id: number;
   key: string;
   value: string;
@@ -11,4 +11,4 @@ export type ActionSuis = {
       remark: string;
     };
   };
-};
+}

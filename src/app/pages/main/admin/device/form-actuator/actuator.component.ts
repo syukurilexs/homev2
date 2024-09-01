@@ -73,6 +73,7 @@ export class RpiComponent {
           this.fg.patchValue({
             name: x.name,
             topic: x.actuator.topic,
+            key: x.actuator.key,
             on: x.actuator.on,
             off: x.actuator.off,
           });
@@ -88,6 +89,7 @@ export class RpiComponent {
     this.fg = this.fb.group({
       name: ['', Validators.required],
       topic: ['', Validators.required],
+      key: ['', Validators.required],
       on: ['', Validators.required],
       off: ['', Validators.required],
     });
@@ -97,6 +99,7 @@ export class RpiComponent {
     const input: CreateRpi = {
       name: this.fg.controls['name'].value,
       topic: this.fg.controls['topic'].value,
+      key: this.fg.controls['key'].value,
       on: this.fg.controls['on'].value,
       off: this.fg.controls['off'].value,
     };
