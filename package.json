@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:homev2": "node dist/homev2/server/server.mjs",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "prettier-watch": "npx onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}"
   },
   "private": true,
   "dependencies": {
