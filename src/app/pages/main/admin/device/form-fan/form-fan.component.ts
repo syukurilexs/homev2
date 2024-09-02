@@ -120,7 +120,7 @@ export class FormFanComponent implements OnInit {
           name: device.name,
           mqttTopic: device.fan.topic,
           remark: device.remark,
-          actuator: device.fan.actuator.id,
+          actuator: device.fan.deviceActuator.id,
         });
 
         // Update selected action switches
@@ -155,7 +155,7 @@ export class FormFanComponent implements OnInit {
           name: device.name,
           mqttTopic: device.light.topic,
           remark: device.remark,
-          actuator: device.light.actuator.id,
+          actuator: device.light.deviceActuator.id,
         });
 
         // Update selected action switches

@@ -62,9 +62,9 @@
                   </div>
                 }
                 <div class="header">Actuator</div>
-                {{ fanInfo.fan.actuator.name }}
-                <div>ON: {{ fanInfo.fan.actuator.actuator.on }}</div>
-                <div>OFF: {{ fanInfo.fan.actuator.actuator.off }}</div>
+                {{ fanInfo.fan.deviceActuator.name }}
+                <div>ON: {{ fanInfo.fan.deviceActuator.actuator.on }}</div>
+                <div>OFF: {{ fanInfo.fan.deviceActuator.actuator.off }}</div>
               } @else if (lightInfo) {
                 <div class="grid">
                   <div><b>Topic</b></div>
@@ -85,10 +85,10 @@
                 }
                 <div class="header">Actuator</div>
                 <div>
-                  {{ lightInfo.light.actuator.name }}
+                  {{ lightInfo.light.deviceActuator.name }}
                 </div>
-                <div>ON: {{ lightInfo.light.actuator.actuator.on }}</div>
-                <div>OFF: {{ lightInfo.light.actuator.actuator.off }}</div>
+                <div>ON: {{ lightInfo.light.deviceActuator.actuator.on }}</div>
+                <div>OFF: {{ lightInfo.light.deviceActuator.actuator.off }}</div>
               } @else if (suisInfo) {
                 <div class="grid">
                   <div><b>Topic</b></div>

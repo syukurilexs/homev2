@@ -6,5 +6,5 @@ import { DeviceCommon } from './device-common.type';
 export type Light = DeviceCommon & {
   state: StateE;
   actions: Action[];
-  actuator: DeviceActuator;
+  deviceActuator: DeviceActuator;
 };

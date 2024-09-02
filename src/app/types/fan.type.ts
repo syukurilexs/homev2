@@ -10,5 +10,5 @@ export interface Fan {
   state: StateE;
   actions: Action[];
   topic: string;
-  actuator: DeviceActuator;
+  deviceActuator: DeviceActuator;
 }
