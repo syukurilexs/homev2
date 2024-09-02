@@ -5,7 +5,7 @@ import { DeviceE } from '../enums/device-type.enum';
 import { environment } from '../../environments/environment';
 import { StateE } from '../enums/state.enum';
 import { CreateSuis } from '../types/create-suis.type';
-import { CreateRpi as CreateActuator } from '../types/create-rpi.type';
+import { CreateActuator as CreateActuator } from '../types/create-actuator.type';
 
 @Injectable({
   providedIn: 'root',

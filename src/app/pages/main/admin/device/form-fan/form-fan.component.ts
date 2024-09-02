@@ -88,7 +88,6 @@ export class FormFanComponent implements OnInit {
   initFg() {
     this.fg = this.fb.group({
       name: ['', Validators.required],
-      mqttTopic: ['', Validators.required],
       actuator: [-1, Validators.required],
       remark: [''],
       suis: [''],
@@ -118,7 +117,6 @@ export class FormFanComponent implements OnInit {
         // Update form
         this.fg.patchValue({
           name: device.name,
-          mqttTopic: device.fan.topic,
           remark: device.remark,
           actuator: device.fan.deviceActuator ? device.fan.deviceActuator.id : -1,
         });
@@ -153,7 +151,6 @@ export class FormFanComponent implements OnInit {
         // Update form
         this.fg.patchValue({
           name: device.name,
-          mqttTopic: device.light.topic,
           remark: device.remark,
           actuator: device.light.deviceActuator ? device.light.deviceActuator.id : -1,
         });
@@ -212,7 +209,6 @@ export class FormFanComponent implements OnInit {
     const input = {
       actions: this.selectedActionSuiss.map((x) => x.id),
       name: this.fg.get('name')?.value,
-      topic: this.fg.get('mqttTopic')?.value,
       remark: this.fg.get('remark')?.value,
       actuator: this.fg.get('actuator')?.value || -1,
     };

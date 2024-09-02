@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { CreateRpi } from '../../../../../types/create-rpi.type';
+import { CreateActuator } from '../../../../../types/create-actuator.type';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { DeviceService } from '../../../../../services/device.service';
 import { first } from 'rxjs';
@@ -18,7 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeviceActuator } from '../../../../../types/device-actuator.type';
 
 @Component({
-  selector: 'app-rpi',
+  selector: 'app-actuator',
   standalone: true,
   imports: [
     MatCardModule,
@@ -31,7 +31,7 @@ import { DeviceActuator } from '../../../../../types/device-actuator.type';
   templateUrl: './actuator.component.html',
   styleUrl: './actuator.component.scss',
 })
-export class RpiComponent {
+export class ActuatorComponent {
   title = 'Add Actuator';
   fg!: FormGroup;
   id = -1;
@@ -78,7 +78,7 @@ export class RpiComponent {
           });
         },
         error: (err) => {
-          this._notifyError('Failed to load rpi');
+          this._notifyError('Failed to load actuator');
           console.error(err);
         },
       });
@@ -95,7 +95,7 @@ export class RpiComponent {
   }
 
   onSubmit() {
-    const input: CreateRpi = {
+    const input: CreateActuator = {
       name: this.fg.controls['name'].value,
       topic: this.fg.controls['topic'].value,
       key: this.fg.controls['key'].value,
@@ -110,11 +110,11 @@ export class RpiComponent {
         .pipe(first())
         .subscribe({
           next: () => {
-            this._notify('Rpi created successfully');
+            this._notify('Actuator created successfully');
             this.location.back();
           },
           error: (err) => {
-            this._notifyError('Failed to create rpi');
+            this._notifyError('Failed to create actuator');
             console.error(err);
           },
         });
@@ -125,11 +125,11 @@ export class RpiComponent {
         .pipe(first())
         .subscribe({
           next: () => {
-            this._notify('Rpi updated successfully');
+            this._notify('Actuator updated successfully');
             this.location.back();
           },
           error: (err) => {
-            this._notifyError('Failed to update rpi');
+            this._notifyError('Failed to update actuator');
             console.error(err);
           },
         });

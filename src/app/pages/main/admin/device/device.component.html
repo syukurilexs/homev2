@@ -44,11 +44,6 @@
             </div>
             <div>
               @if (fanInfo) {
-                <div class="grid">
-                  <div><b>Topic</b></div>
-                  <div>:</div>
-                  <div>{{ fanInfo.fan.topic }}</div>
-                </div>
                 <div class="header">Attached Switch</div>
                 @for (item of fanInfo.fan.actions; track $index) {
                   <div>
@@ -66,11 +61,6 @@
                 <div>ON: {{ fanInfo.fan.deviceActuator.actuator.on }}</div>
                 <div>OFF: {{ fanInfo.fan.deviceActuator.actuator.off }}</div>
               } @else if (lightInfo) {
-                <div class="grid">
-                  <div><b>Topic</b></div>
-                  <div>:</div>
-                  <div>{{ lightInfo.light.topic }}</div>
-                </div>
                 <div class="header">Attached Switch</div>
                 @for (item of lightInfo.light.actions; track $index) {
                   <div>

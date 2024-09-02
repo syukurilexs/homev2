@@ -79,14 +79,14 @@ export const routes: Routes = [
             loadComponent: () =>
               import(
                 './pages/main/admin/device/form-actuator/actuator.component'
-              ).then((x) => x.RpiComponent),
+              ).then((x) => x.ActuatorComponent),
           },
           {
             path: 'device/' + DeviceE.Actuator + '/:id',
             loadComponent: () =>
               import(
                 './pages/main/admin/device/form-actuator/actuator.component'
-              ).then((x) => x.RpiComponent),
+              ).then((x) => x.ActuatorComponent),
           },
           {
             path: 'group',

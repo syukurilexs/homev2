@@ -1,4 +1,4 @@
-export interface CreateRpi {
+export interface CreateActuator {
   name: string;
   topic: string;
   key: string;
