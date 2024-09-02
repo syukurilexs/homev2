@@ -18,7 +18,6 @@ import { DeviceService } from '../../../../services/device.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormFanComponent } from './form-fan/form-fan.component';
 import { Device } from '../../../../types/device.type';
-import { getAsFan, getAsSuis } from '../../../../functions/type.func';
 import { DeviceSuis } from '../../../../types/device-suis.type';
 import { DeviceLight } from '../../../../types/device-light.type';
 import { DeviceFan } from '../../../../types/device-fan.type';
@@ -43,11 +42,7 @@ import { DeviceActuator } from '../../../../types/device-actuator.type';
   styleUrl: './device.component.scss',
 })
 export class DeviceComponent {
-  getAsFan = getAsFan;
-  getAsSuis = getAsSuis;
-
   currentDevice = DeviceE.Fan;
-  //deviceInfo!: DeviceSuis | DeviceLight | DeviceFan | undefined;
   deviceInfo!: Device | undefined;
   DeviceEnum = DeviceE;
   devices: Device[] = [];
