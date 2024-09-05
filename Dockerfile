@@ -17,6 +17,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY ./src ./src
+COPY ./public ./public
 COPY ./angular.json ./tsconfig.json ./tsconfig.app.json  ./
 
 ## Build the angular app in production mode and store the artifacts in dist folder
@@ -37,7 +38,7 @@ COPY nginx/default.conf /etc/nginx/conf.d/
 RUN rm -rf /usr/share/nginx/html/*
 
 ## From ‘builder’ stage copy over the artifacts in dist folder to default nginx public folder
-COPY --from=builder /ng-app/dist/homev2 /usr/share/nginx/html
+COPY --from=builder /ng-app/dist/homev2/browser /usr/share/nginx/html
 
 EXPOSE 8080
 
