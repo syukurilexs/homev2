@@ -47,6 +47,8 @@ export class DeviceComponent {
   DeviceEnum = DeviceE;
   devices: Device[] = [];
 
+  static staticCurrentDevice = DeviceE.Fan;
+
   icons = [
     {
       name: 'Fans',
@@ -89,6 +91,9 @@ export class DeviceComponent {
       iconRegistery,
     );
 
+    // To remember previous device type
+    this.currentDevice = DeviceComponent.staticCurrentDevice;
+
     // Reload the list of device base on default type (fan)
     this.reload();
   }
@@ -96,6 +101,7 @@ export class DeviceComponent {
   onSetCurrentDevice(device: DeviceE) {
     this.deviceInfo = undefined;
     this.currentDevice = device;
+    DeviceComponent.staticCurrentDevice = device;
 
     this.reload();
   }
