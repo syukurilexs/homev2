@@ -37,3 +37,8 @@ ul {
   padding: 16px;
   margin-left: 16px;
 }
+
+.active::before {
+  background-color: var(--mdc-list-list-item-focus-state-layer-color);
+  opacity: var(--mdc-list-list-item-hover-state-layer-opacity);
+}

@@ -5,10 +5,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { registerIcon } from '../../functions/register-icon.func';
 
 @Component({
   selector: 'app-main',
@@ -24,6 +26,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     AsyncPipe,
     RouterOutlet,
     RouterLink,
+    RouterLinkActive
   ],
 })
 export class MainComponent {
@@ -68,4 +71,20 @@ export class MainComponent {
       map((result) => result.matches),
       shareReplay(),
     );
+
+  icons = [
+    'dashboard',
+    'admin',
+    'group',
+    'device',
+    'scene',
+    'timer',
+    'monitor',
+  ];
+
+  constructor(domSanitizer: DomSanitizer, matIconRegistry: MatIconRegistry) {
+    registerIcon(this.icons, domSanitizer, matIconRegistry);
+  }
+
+
 }

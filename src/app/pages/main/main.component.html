@@ -12,21 +12,38 @@
         @for (item of routes; track $index) {
           <li>
             @if (item.sub) {
-              <a mat-list-item>
-                {{ item.name }}
+              <a mat-list-item routerLinkActive="active">
+                <div class="row ai-center gap1">
+                  <mat-icon [svgIcon]="item.path"></mat-icon>
+                  {{ item.name }}
+                </div>
               </a>
               <ul>
                 @for (sub of item.sub; track $index) {
                   <li>
-                    <a mat-list-item [routerLink]="item.path + '/' + sub.path">
-                      {{ sub.name }}
+                    <a
+                      mat-list-item
+                      [routerLink]="item.path + '/' + sub.path"
+                      routerLinkActive="active"
+                    >
+                      <div class="row ai-center gap1">
+                        <mat-icon [svgIcon]="sub.path"></mat-icon>
+                        {{ sub.name }}
+                      </div>
                     </a>
                   </li>
                 }
               </ul>
             } @else {
-              <a mat-list-item [routerLink]="item.path">
-                {{ item.name }}
+              <a
+                mat-list-item
+                [routerLink]="item.path"
+                routerLinkActive="active"
+              >
+                <div class="row ai-center gap1">
+                  <mat-icon [svgIcon]="item.path"></mat-icon>
+                  {{ item.name }}
+                </div>
               </a>
             }
           </li>
